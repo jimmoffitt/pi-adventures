@@ -1,18 +1,44 @@
 # pi-adventures
 
+A collection of notes about setting up a Raspberry Pi 3 for posting and collecting Twitter data. So far working with Ruby, Python and Java. 
 
-## Python and public Twitter API
-sudo pip install twython
-sudo pip install tweepy
+Covers two-way communication, posting messages to the outside world, and listening for messages. 
 
-## Ruby and public Twitter API
+## Posting Data
+
+Posting data enables the Pi device to communicate to the outside world. Messages can be public via Tweets or private via Direct messages. An example use-case is having a weather station Tweet its readings. 
+
+### Python and public Twitter API
+
+Have Tweeted with these two packages. No issues with getting started.
+
++ sudo pip install twython
++ sudo pip install tweepy
+
+### Ruby and public Twitter API
+
+Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ruby install. 
 
 + gem install bundle
 + sudo apt-get install ruby-install
 + gem install twitter  (failed to build native extensions before the previous ruby install)
 
+### Java example
 
-## Streaming
+[] TODO
+
+
+## Consuming data
+
+The use-case of driving these experiments is enabling a device to listen for commands via Twitter. Realtime may be overkill but seems like an interesting POC, enabling realtime control with low latency.
+
+## Restful Search APIs
+
+[] TODO
+
+## Realtime Streaming APIs
+
+Gnip Streaming seems a bit more challenging.
 
 ### Ruby pt-stream
 
@@ -23,8 +49,14 @@ sudo pip install tweepy
 
 Deployed on Pi:
 + getting error about "Encryption not available on this event-machine"
-   
 
+```
+pi@raspberrypi:~/play/pt-stream-pi $ ruby pt_stream_pi.rb
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Encryption not available on this event-machine
+Aborted
+```
+   
 
 ### Java HBCpt2
 
@@ -35,3 +67,7 @@ Seems like pi in the sky at this point. Currently attempting to deploy by hand t
 + Playing around with $PATH, so far to no avail. 
 
 
+### Python streaming
+
+[] gnippy
+[] ????
