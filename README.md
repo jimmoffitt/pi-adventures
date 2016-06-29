@@ -30,7 +30,7 @@ Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ru
 
 ## Consuming data
 
-The use-case of driving these experiments is enabling a device to listen for commands via Twitter. Realtime may be overkill but seems like an interesting POC, enabling realtime control with low latency.
+The use-case driving these experiments is enabling a device to listen for commands via Twitter. Data can be received by either making polls on some interval, or streaming in realtime. Realtime streaming may be overkill but seems like an interesting POC, enabling realtime control with low latency.
 
 ## Restful Search APIs
 
@@ -45,7 +45,7 @@ Gnip Streaming seems a bit more challenging.
 + Resurrected an early attempt at a Ruby multi-publisher stream consumer.
 + Refactoring it for both Pi and ptv2.
    + Removing mysql support. Will port to something much more light-weight.
-   + Removing support for non-Twitter publishers. Removed code only supported annoying and simple differences in encoding metadata (like activity ids, geo details, even timestamps (thanks GetGlue).
+   + Removing support for non-Twitter publishers. Removed code only supported annoying and simple differences in encoding metadata (like activity ids, geo details, even timestamps -- thanks StockTwits).
 
 Deployed on Pi:
 + getting error about "Encryption not available on this event-machine"
@@ -69,5 +69,5 @@ Seems like pi in the sky at this point. Currently attempting to deploy by hand t
 
 ### Python streaming
 
-[] gnippy
-[] ????
++ [] gnippy
++ [] ????
