@@ -33,8 +33,8 @@ Gnip focuses on the delivery of Twitter data and metadata, and provides a family
 
 Have Tweeted with these two packages. No issues with getting started.
 
++ sudo pip install tweepy ([example code](https://github.com/jimmoffitt/pi-adventures/blob/master/post_tweet.py))
 + sudo pip install twython
-+ sudo pip install tweepy
 
 ### Ruby and Twitter API
 
@@ -42,7 +42,8 @@ Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ru
 
 + gem install bundle
 + sudo apt-get install ruby-install
-+ gem install twitter  (failed to build native extensions before the previous ruby install)
++ gem install twitter ([example code](https://github.com/jimmoffitt/pi-adventures/blob/master/post_tweet.py))  
+   + Note: failed to build native extensions before the previous ruby install.
 
 ### Java example
 
