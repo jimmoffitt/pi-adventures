@@ -1,21 +1,37 @@
 # pi-adventures
 
-A collection of notes about setting up a Raspberry Pi 3 for posting and collecting Twitter data. So far working with Ruby, Python and Java. 
+A collection of notes about setting up a Raspberry Pi 3 for posting and collecting Twitter data. So far playing with Ruby, Python and Java. Node.js should be on this list too. 
 
 Covers two-way communication, posting messages to the outside world, and listening for messages. 
 
+The general use-case to help provide data stories is based on both integrating Twitter with early-warning systems and investigating the history of the use of Twitter during historic floods. These applications of Twitter data and the Twitter platform have provided a great variety of user and data stories to share.
+
+Early warning systems are based on meterological data collection systems and the public safety mission of providing alarms and notifications. These systems can readily add Twitter as a broadcast channel, and have the potential to listen for Tweets of interest. 
+
+
 ## Posting Data
 
-Posting data enables the Pi device to communicate to the outside world. Messages can be public via Tweets or private via Direct messages. An example use-case is having a weather station Tweet its readings. 
+Posting data enables the Pi device to communicate to the outside world. Messages can be public via Tweets or private via Direct messages. An example use-case is having a weather station Tweet its readings. Another would be sending a private direct message to provide another device an 'event' to act on. 
 
-### Python and public Twitter API
+## Consuming data from Gnip
+
+For these experiments, Gnip was the go-to source for data for a couple of reasons. First, many of the packages/gems used above to Tweet also support streaming data. Second, 
+
+
+
+## Play notes ---------------------
+
+
+## Posting Data 
+
+### Python and Twitter API
 
 Have Tweeted with these two packages. No issues with getting started.
 
 + sudo pip install twython
 + sudo pip install tweepy
 
-### Ruby and public Twitter API
+### Ruby and Twitter API
 
 Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ruby install. 
 
@@ -28,9 +44,12 @@ Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ru
 [] TODO
 
 
-## Consuming data
+## Consuming data from Gnip
 
-The use-case driving these experiments is enabling a device to listen for commands via Twitter. Data can be received by either making polls on some interval, or streaming in realtime. Realtime streaming may be overkill but seems like an interesting POC, enabling realtime control with low latency.
+The use-case driving these experiments is enabling a device to listen for commands via Twitter. Data can be received by either making polls on some interval, or streaming in realtime.
+
++ Polling systems based on Gnip Search APIs (or Twitter public APIs) should be relatively easy to set-up.
++ Realtime streaming may be overkill but seems like an interesting POC, enabling realtime control with low latency.
 
 ## Restful Search APIs
 
