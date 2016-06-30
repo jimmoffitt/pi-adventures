@@ -1,4 +1,4 @@
-# pi-adventures
+# adventures in pi
 
 A collection of notes about setting up a Raspberry Pi 3 for posting and collecting Twitter data. So far playing with Ruby, Python and Java. Node.js should be on this list too. 
 
