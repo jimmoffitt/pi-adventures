@@ -93,5 +93,5 @@ Seems like pi in the sky at this point. Currently attempting to deploy by hand t
 
 ### Python streaming
 
-+ [] gnippy
++ gnippy more or less worked straight out of the box.
 + [] ????
