@@ -21,7 +21,7 @@ For these experiments, Gnip was the go-to source for data for a couple of reason
 
 Gnip focuses on the delivery of Twitter data and metadata, and provides a family of products that help users filter the realtime firehose or all-time archive for Tweets of interest. Gnip provides both RESTful APIs able to retrieve data on a near realtime basis and realtime streaming APIs that deliver data with minimum latency. 
 
-<add summary of streaming success>
+[] add summary of streaming success
 
 
 ## Play notes ---------------------
