@@ -94,5 +94,5 @@ Seems like pi in the sky at this point. Currently attempting to deploy by hand t
 
 ### Python streaming
 
-+ [gnippy](https://pypi.python.org/pypi/gnippy) more or less worked straight out of the box.
++ [gnippy](https://pypi.python.org/pypi/gnippy) more or less worked straight out of the box. [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/gnippy_stream.py).
     + Note: Using .gnippy configuration file had odd behavior, file not found on subsequent executions, so reverted to providing access tokens when creating client object.
