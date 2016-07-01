@@ -63,9 +63,14 @@ The use-case driving these experiments is enabling a device to listen for comman
 
 ## Realtime Streaming APIs
 
-Gnip Streaming seems a bit more challenging.
+Gnip Streaming was a bit more challenging, but we got there.
 
-### Ruby pt-stream
+### Python streaming
+
++ [gnippy](https://pypi.python.org/pypi/gnippy) more or less worked straight out of the box. [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/gnippy_stream.py).
+    + Note: Using .gnippy configuration file had odd behavior, file not found on subsequent executions, so reverted to providing access tokens when creating client object.
+
+### Ruby pt-stream-pi
 
 + Resurrected an early attempt at a Ruby multi-publisher stream consumer.
 + Refactoring it for both Pi and ptv2.
@@ -74,6 +79,13 @@ Gnip Streaming seems a bit more challenging.
 
 Deployed on Pi:
 + getting error about "Encryption not available on this event-machine"
+   + A bit of searching revealed that the event-machine gem needed to be re-compiled *after* installing libssl-dev. Here are the steps I needed to take:
+      + sudo apt-get install libssl-dev --> lots of complaints about not finding remote resources.
+         + sudo apt-get update --> fixed those problems.
+      + sudo gem uninstall eventmachine 
+      + sudo gem install eventmachine
+      + ruby pt_stream_pi.rb  --> boom!
+   
 
 ```
 pi@raspberrypi:~/play/pt-stream-pi $ ruby pt_stream_pi.rb
@@ -92,7 +104,4 @@ Seems like pi in the sky at this point. Currently attempting to deploy by hand t
 + Playing around with $PATH, so far to no avail. 
 
 
-### Python streaming
 
-+ [gnippy](https://pypi.python.org/pypi/gnippy) more or less worked straight out of the box. [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/gnippy_stream.py).
-    + Note: Using .gnippy configuration file had odd behavior, file not found on subsequent executions, so reverted to providing access tokens when creating client object.
