@@ -17,7 +17,7 @@ Posting Tweets (and Direct Messages) is very straightforward on the Raspberry Pi
 
 ## Consuming data from Gnip
 
-For these experiments, Gnip was the go-to source for data for a couple of reasons. First, many of the packages/gems used above to Tweet also support streaming data. Second, Gnip provides enterprise-grade data services that provide performance, data fidelity, and reliability demanded by early-warning systems.
+For these experiments, Gnip was the go-to source for data for a couple of reasons. First, many of the packages/gems used above to Tweet also support streaming data. So it is assumed that getting them to stream data should be straight-forward. Second, Gnip provides enterprise-grade data services that provide performance, data fidelity, and reliability demanded by early-warning systems.
 
 Gnip focuses on the delivery of Twitter data and metadata, and provides a family of products that help users filter the realtime firehose or all-time archive for Tweets of interest. Gnip provides both RESTful APIs able to retrieve data on a near realtime basis and realtime streaming APIs that deliver data with minimum latency. 
 
@@ -33,8 +33,11 @@ Gnip focuses on the delivery of Twitter data and metadata, and provides a family
 
 Have Tweeted with these two packages. No issues with getting started.
 
-+ sudo pip install tweepy ([example code](https://github.com/jimmoffitt/pi-adventures/blob/master/post_tweet.py))
 + sudo pip install twython
++ sudo pip install tweepy 
+ 
+[Example Tweepy code](https://github.com/jimmoffitt/pi-adventures/blob/master/post_tweet.py)
+
 
 ### Ruby and Twitter API
 
@@ -42,7 +45,9 @@ Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ru
 
 + gem install bundle
 + sudo apt-get install ruby-install
-+ gem install twitter ([example code](https://github.com/jimmoffitt/pi-adventures/blob/master/post_tweet.rb))  
++ gem install twitter 
+ 
+ [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/post_tweet.rb) 
    + Note: failed to build native extensions before the previous ruby install.
 
 ### Java example
@@ -76,6 +81,7 @@ Gnip Streaming was a bit more challenging, but we got there.
 + Refactoring it for both Pi and ptv2.
    + Removing mysql support. Will port to something much more light-weight.
    + Removing support for non-Twitter publishers. Removed code only supported annoying and simple differences in encoding metadata (like activity ids, geo details, even timestamps -- thanks StockTwits).
++ [Example code](https://github.com/jimmoffitt/pi-adventures/tree/master/pt-stream).
 
 Deployed on Pi:
 + getting error about "Encryption not available on this event-machine"
