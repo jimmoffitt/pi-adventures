@@ -79,13 +79,6 @@ Gnip Streaming was a bit more challenging, but we got there.
 
 Deployed on Pi:
 + getting error about "Encryption not available on this event-machine"
-   + A bit of searching revealed that the event-machine gem needed to be re-compiled *after* installing libssl-dev. Here are the steps I needed to take:
-      + sudo apt-get install libssl-dev --> lots of complaints about not finding remote resources.
-         + sudo apt-get update --> fixed those problems.
-      + sudo gem uninstall eventmachine 
-      + sudo gem install eventmachine
-      + ruby pt_stream_pi.rb  --> boom!
-   
 
 ```
 pi@raspberrypi:~/play/pt-stream-pi $ ruby pt_stream_pi.rb
@@ -93,8 +86,13 @@ terminate called after throwing an instance of 'std::runtime_error'
   what():  Encryption not available on this event-machine
 Aborted
 ```
+   + A bit of searching revealed that the event-machine gem needed to be re-compiled *after* installing libssl-dev. Here are the steps I needed to take:
+      + sudo apt-get install libssl-dev --> lots of complaints about not finding remote resources.
+         + sudo apt-get update --> fixed those problems.
+      + sudo gem uninstall eventmachine 
+      + sudo gem install eventmachine
+      + ruby pt_stream_pi.rb  --> boom!
    
-
 ### Java HBCpt2
 
 Seems like pi in the sky at this point. Currently attempting to deploy by hand the [HBC udpated for ptv2](https://github.com/jimmoffitt/hbc).
