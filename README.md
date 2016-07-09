@@ -4,6 +4,8 @@ A collection of notes about setting up a Raspberry Pi 3 for posting and collecti
 
 Covers two-way communication, posting messages to the outside world, and listening for messages. 
 
+One use-case that will drive this exploration is using Rapberry Pi 3s with early-warning systems. Although the power consumption may be an issue with remote, off-the-grid weather stations, in other fuller-power settings, the Pi 3 capabilites are exciting.
+
 ## Posting Data
 
 Posting data enables the Pi device to communicate to the outside world. Messages can be public via Tweets or private via Direct messages. An example use-case is having a weather station Tweet its readings. Another would be sending a private direct message to provide another device an 'event' to act on. 
