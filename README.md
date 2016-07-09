@@ -4,11 +4,6 @@ A collection of notes about setting up a Raspberry Pi 3 for posting and collecti
 
 Covers two-way communication, posting messages to the outside world, and listening for messages. 
 
-The general use-case to help provide data stories is based on both integrating Twitter with early-warning systems and investigating the history of the use of Twitter during historic floods. These applications of Twitter data and the Twitter platform have provided a great variety of user and data stories to share.
-
-Early warning systems are based on meterological data collection systems and the public safety mission of providing alarms and notifications. These systems can readily add Twitter as a broadcast channel, and have the potential to listen for Tweets of interest. 
-
-
 ## Posting Data
 
 Posting data enables the Pi device to communicate to the outside world. Messages can be public via Tweets or private via Direct messages. An example use-case is having a weather station Tweet its readings. Another would be sending a private direct message to provide another device an 'event' to act on. 
@@ -98,7 +93,31 @@ Aborted
       + sudo gem uninstall eventmachine 
       + sudo gem install eventmachine
       + ruby pt_stream_pi.rb  --> boom!
-   
+  
+
+When streaming an average of ~500 Tweets/minutes, the stream ran for over 24 hours before the stream volume was increased until the full-buffer disconnected at around 12K/minute with 28K Tweets in the buffer.
+
+When streaming ~5K Tweets per minute it would run for ~10 minutes, then a client disconnection would be detected by server-side...
+Streaming to standard out (terminal window) would continue for many minutes (twenty?).
+At end of client-side stream were these messages:
+
+```
+76ea1000-76ea6000 rw-p 001ee000 b3:07 920280     /usr/lib/arm-linux-gnueabihf/libruby-2.1.so.2.1.0
+76ebc000-76ebe000 r-xp 00000000 b3:07 919526     /usr/lib/arm-linux-gnueabihf/ruby/2.1.0/enc/encdb.so
+76ecf000-76ed4000 r-xp 00000000 b3:07 919071     /usr/lib/arm-linux-gnueabihf/libarmmem.so
+76ee4000-76f04000 r-xp 00000000 b3:07 1048717    /lib/arm-linux-gnueabihf/ld-2.19.so
+7ea81000-7eaa2000 rwxp 00000000 00:00 0          [stack]
+7ed76000-7ed77000 r-xp 00000000 00:00 0          [sigpage]
+7ed77000-7ed78000 r--p 00000000 00:00 0          [vvar]
+7ed78000-7ed79000 r-xp 00000000 00:00 0          [vdso]
+ffff0000-ffff1000 r-xp 00000000 00:00 0          [vectors]
+
+[NOTE]
+You may have encountered a bug in the Ruby interpreter or extension libraries.
+Bug reports are welcome.
+For details: http://www.ruby-lang.org/bugreport.html
+```
+
 ### Java HBCpt2
 
 Seems like pi in the sky at this point. Currently attempting to deploy by hand the [HBC udpated for ptv2](https://github.com/jimmoffitt/hbc).
@@ -108,4 +127,13 @@ Seems like pi in the sky at this point. Currently attempting to deploy by hand t
 + Playing around with $PATH, so far to no avail. 
 
 
+### Notes
 
+The general use-case to help provide data stories is based on both 
+
++ Integrating Twitter with early-warning systems.
++ Investigating the history of the use of Twitter during historic floods. 
+ 
+Early-warning systems are based on meterological data collection and the public safety mission of providing alarms and notifications. 
+
+These systems can readily add Twitter as a broadcast channel, and have the potential to listen for Tweets of interest. 
