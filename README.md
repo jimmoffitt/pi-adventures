@@ -139,3 +139,19 @@ The general use-case to help provide data stories is based on both
 Early-warning systems are based on meterological data collection and the public safety mission of providing alarms and notifications. 
 
 These systems can readily add Twitter as a broadcast channel, and have the potential to listen for Tweets of interest. 
+
+## Challenges of low-volume streams
+
+When considering challenges related streaming Twitter data, managing high data volumes is the one that first comes to mind. When Gnip customers have issues with maintaining a stream connection, it usually is due to not keeping up and experiencing a forced disconnect after the server-side buffer fills up. When forced disconnects are happening, the go-to advice is to focus on the stream consumer object and make sure it is not doing a lot of 'heavy-lifting', not parsing JSON, not applying any logic, but instead is just writing received data to a queue... 
+
+With the type of use-case I had in mind for the raspberry pi, I experienced a challenge due to the opposite scenario: very low volume streams. I needed to build a stream consumer that could receive very low amounts of data, such as one Tweet every hour or so. When I first tested with such a low-volume stream, I used the EventMachine-based Ruby consumer mentioned above. I started the stream consumer, and Tweeted the \#iot_test hashtag and waited... and waited... and waited. Nothing happened. I was expecting the normal second or so latency between posting the Tweet and see it arrive in my app. After about five minutes, I added a high-volume filter to my PowerTrack stream and immediately after saw the \#iot_test Tweet arrive. Turns out it was hanging out in a client-side streaming buffer until enough subsequent Tweets arrived and pushed it out of that buffer... 
+
+One solution here is to dig into the EventMachine code and tinkering with its internal buffers. Before doing that, I decided to experiment with a cURL-based Ruby stream consumer (used the curb gem) under the assumption that since it was based on cURL that there may not be any buffering issue. This potentially naive assumption was based on my experience with cURL and always seeing low latency with low-volume streams. 
+
+So I took the Gnip simplistic curb-based Ruby code snippet, and sure enough, it handled the low-volume stream perfectly, 'surfacing' a single Tweet as fast as pure cURL. The downside of that code-based is its simplicity, with no logging, no configuration management, and no delivery of whole-Tweet, but rather generating data with Tweets sometimes split between data chunks. 
+
+
+
+
+
+
