@@ -6,6 +6,8 @@ Covers two-way communication, posting messages to the outside world, and listeni
 
 One use-case that will drive this exploration is using Rapberry Pi 3s with early-warning systems. Although the power consumption may be an issue with remote, off-the-grid weather stations, in other fuller-power settings, the Pi 3 capabilites are exciting.
 
+A first goal is to listen for the #iot_test hashtag with a HTTP Twitter stream, and immediately Tweet back to the sender. For this exercise I'll focus on consuming a Gnip PowerTrack stream on the Pi, and Tweet with the Public API (of course!).
+
 ## Posting Data
 
 Posting data enables the Pi device to communicate to the outside world. Messages can be public via Tweets or private via Direct messages. An example use-case is having a weather station Tweet its readings. Another would be sending a private direct message to provide another device an 'event' to act on. 
@@ -148,7 +150,16 @@ With the type of use-case I had in mind for the raspberry pi, I experienced a ch
 
 One solution here is to dig into the EventMachine code and tinkering with its internal buffers. Before doing that, I decided to experiment with a cURL-based Ruby stream consumer (used the curb gem) under the assumption that since it was based on cURL that there may not be any buffering issue. This potentially naive assumption was based on my experience with cURL and always seeing low latency with low-volume streams. 
 
-So I took the Gnip simplistic curb-based Ruby code snippet, and sure enough, it handled the low-volume stream perfectly, 'surfacing' a single Tweet as fast as pure cURL. The downside of that code-based is its simplicity, with no logging, no configuration management, and no delivery of whole-Tweet, but rather generating data with Tweets sometimes split between data chunks. However, I hit a roadblock when attempting to deploy the curb-based app on the Raspberry Pi. I was unable to get the curb gem installed... 
+So I took the Gnip simplistic curb-based Ruby code snippet, and sure enough, it handled the low-volume stream perfectly, 'surfacing' a single Tweet as fast as pure cURL. The downside of that code-based is its simplicity, with no logging, no configuration management, and no delivery of whole-Tweet, but rather generating data with Tweets sometimes split between data chunks. However, I hit a roadblock when attempting to deploy the curb-based app on the Raspberry Pi. I was unable to get the curb gem installed on the Raspbery Pi 3... 
+
+After following a few 'install curb' recipes with no success, the next step was testing other stream consumers. I spun up a Python gnippy-based stream, and got the low-volume handling I was looking for. My single Tweet showed up in about a second. 
+
+
+## Building a simple Twitter bot
+
+So, I finally had both a low-volume-ready listening app and a Tweeting app deployed and running on the Pi. Even though this was a Python-based consumer and a Ruby-based Tweeter, it seemed like a fun idea to make these pieces work together. The consumer and Tweeting apps are being deployed as separate processes, so the underlying language shouldn't matter. For the first, all-Ruby curb-based attempt, the Ruby ``` `#{command}` ``` mechanism seemed to do the job. For the Python-calling-Ruby process, I went with the Python ```subprocess.check_output()``` method. 
+
+This plumbing worked out of the (pi) box. I had a simple Twitter Bot runnning on a Raspbery Pi 3.
 
 
 
@@ -157,7 +168,51 @@ So I took the Gnip simplistic curb-based Ruby code snippet, and sure enough, it 
 
 
 
+## Random notes:
 
+First attempt to contruct complete, independent Tweets when streaming with Ruby curb:
 
+```ruby
 
+Curl::Easy.http_get url do |c|
+   c.http_auth_types = :basic
+   c.username = user
+   c.password = pass
+
+   c.encoding = "gzip"
+   c.verbose = true
+
+   tweet = ''
+   c.on_body do |line|
+
+	  tweetHandler.show line
+
+	  if line.strip == ''
+		 puts "Heartbeat from server"
+	  else
+		 complete = false
+		 if line.start_with? '{"created_at"' and line.strip.end_with? '}'
+			tweet = line.strip
+			complete = true
+		 elsif line.start_with? '{"created_at"'
+			tweet = line.strip
+			complete = false
+		 elsif line.end_with? '}'
+			tweet = tweet + line.strip
+			complete = true
+		 elsif line.include? '}{'
+			puts "need to handle '}{' pattern."
+		 end
+
+		 tweetHandler.check tweet if complete and tweet != ''
+		 tweet = ''
+
+	  end
+
+	  line.size # required by curl's api.
+   end
+
+end
+
+```
 
