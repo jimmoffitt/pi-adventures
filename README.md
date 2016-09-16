@@ -162,10 +162,10 @@ So, I finally had both a low-volume-ready listening app and a Tweeting app deplo
 This plumbing worked out of the (pi) box. I had a simple Twitter Bot runnning on a Raspbery Pi 3.
 
 So a Tweet like this with a 'trigger' hashtag:
- ![](https://raw.githubusercontent.com/jimmoffitt/pi-adventures/master/images/triggerTweet.png)
+ ![](https://github.com/jimmoffitt/pi-adventures/blob/master/images/triggerTweet.jpg)
  
  Results in this Tweet:
-  ![](https://raw.githubusercontent.com/jimmoffitt/pi-adventures/master/images/responseTweet.png)
+  ![](https://github.com/jimmoffitt/pi-adventures/blob/master/images/responseTweet.jpg)
  
 
 
