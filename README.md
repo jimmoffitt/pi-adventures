@@ -4,7 +4,7 @@ A collection of notes about setting up a Raspberry Pi 3 for posting and collecti
 
 Covers two-way communication, posting messages to the outside world, and listening for messages. 
 
-One use-case that will drive this exploration is using Rapberry Pi 3s with early-warning systems. Although the power consumption may be an issue with remote, off-the-grid weather stations, in other fuller-power settings, the Pi 3 capabilites are exciting.
+One use-case that will drive this exploration is using Rapberry Pi 3s with early-warning systems, pondering remote sites that collect data. Although the power consumption may be an issue with remote, off-the-grid weather stations, in other fuller-power settings, the Pi 3 capabilites are exciting.
 
 A first goal is to listen for the #iot_test hashtag with a HTTP Twitter stream, and immediately Tweet back to the sender. For this exercise I'll focus on consuming a Gnip PowerTrack stream on the Pi, and Tweet with the Public API (of course!).
 
@@ -144,7 +144,7 @@ These systems can readily add Twitter as a broadcast channel, and have the poten
 
 ## Challenges of low-volume streams
 
-When considering challenges related streaming Twitter data, managing high data volumes is the one that first comes to mind. When Gnip customers have issues with maintaining a stream connection, it usually is due to not keeping up and experiencing a forced disconnect after the server-side buffer fills up. When forced disconnects are happening, the go-to advice is to focus on the stream consumer object and make sure it is not doing a lot of 'heavy-lifting', not parsing JSON, not applying any logic, but instead is just writing received data to a queue... 
+When considering challenges related to streaming Twitter data, managing high data volumes is the one that first comes to mind. When Gnip customers have issues with maintaining a stream connection, it usually is due to not keeping up and experiencing a forced disconnect after the server-side buffer fills up. When forced disconnects are happening, the go-to advice is to focus on the stream consumer object and make sure it is not doing a lot of 'heavy-lifting', not parsing JSON, not applying any logic, but instead is just writing received data to a queue... 
 
 With the type of use-case I had in mind for the raspberry pi, I experienced a challenge due to the opposite scenario: very low volume streams. I needed to build a stream consumer that could receive very low amounts of data, such as one Tweet every hour or so. When I first tested with such a low-volume stream, I used the EventMachine-based Ruby consumer mentioned above. I started the stream consumer, and Tweeted the \#iot_test hashtag and waited... and waited... and waited. Nothing happened. I was expecting the normal second or so latency between posting the Tweet and see it arrive in my app. After about five minutes, I added a high-volume filter to my PowerTrack stream and immediately after saw the \#iot_test Tweet arrive. Turns out it was hanging out in a client-side streaming buffer until enough subsequent Tweets arrived and pushed it out of that buffer... 
 
@@ -170,7 +170,7 @@ This plumbing worked out of the (pi) box. I had a simple Twitter Bot runnning on
 
 ## Random notes:
 
-First attempt to contruct complete, independent Tweets when streaming with Ruby curb:
+First attempt to construct complete, independent Tweets when streaming with Ruby curb:
 
 ```ruby
 
