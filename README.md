@@ -87,7 +87,7 @@ Have Tweeted with these two packages. No issues with getting started.
 + sudo pip install twython
 + sudo pip install tweepy 
  
-[Example Tweepy code](https://github.com/jimmoffitt/pi-adventures/blob/master/post_tweet.py)
+[Example Tweepy code](https://github.com/jimmoffitt/pi-adventures/blob/master/notify/tweet/post_tweet.py)
 
 
 ### Ruby and Twitter API
@@ -98,7 +98,7 @@ Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ru
 + sudo apt-get install ruby-install
 + gem install twitter 
  
- [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/post_tweet.rb) 
+ [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/notify/tweet/post_tweet.rb) 
    + Note: failed to build native extensions before the previous ruby install.
 
 ### Java example
@@ -123,7 +123,7 @@ Gnip Streaming was a bit more challenging, but we got there.
 
 ### Python streaming
 
-+ [gnippy](https://pypi.python.org/pypi/gnippy) more or less worked straight out of the box. [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/gnippy_stream.py).
++ [gnippy](https://pypi.python.org/pypi/gnippy) more or less worked straight out of the box. [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/listen/stream/gnippy-stream.py).
     + Note: Using .gnippy configuration file had odd behavior, file not found on subsequent executions, so reverted to providing access tokens when creating client object.
 
 ### Ruby pt-stream-pi
