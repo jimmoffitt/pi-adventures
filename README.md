@@ -2,7 +2,9 @@
 
 A collection of notes about setting up a Raspberry Pi 3 for posting and collecting Twitter data. So far playing with Ruby, Python and Java. Node.js should be on this list too. 
 
-Covers two-way communication, posting messages to the outside world, and listening for messages. 
+Covers two-way communication, both sending notifications (to the outside world), and listening for messages (from the Twitter Platform). 
+
+Possible notifications include posting Tweets, sending private Direct Messages, and sending emails. 
 
 One use-case that will drive this exploration is using Rapberry Pi 3s with early-warning systems, pondering remote sites that collect data. Although the power consumption may be an issue with remote, off-the-grid weather stations, in other fuller-power settings, the Pi 3 capabilites are exciting.
 
