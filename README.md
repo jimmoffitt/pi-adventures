@@ -22,11 +22,15 @@ Posting Tweets (and Direct Messages) is very straightforward on the Raspberry Pi
 
 ## Listen
 
-### Streaming Tweets
+### Streaming real-time Tweets
 
 For these experiments, Gnip was the go-to source for data for a couple of reasons. First, many of the packages/gems used above to Tweet also support streaming data. So it is assumed that getting them to stream data should be straight-forward. Second, Gnip provides enterprise-grade data services that provide performance, data fidelity, and reliability demanded by early-warning systems.
 
 Gnip focuses on the delivery of Twitter data and metadata, and provides a family of products that help users filter the realtime firehose or all-time archive for Tweets of interest. Gnip provides both RESTful APIs able to retrieve data on a near realtime basis and realtime streaming APIs that deliver data with minimum latency. 
+
+[] add summary of streaming success
+
+### Searching Tweets
 
 ## Configuration
 
@@ -64,9 +68,6 @@ emails:
 
 ```
 
-[] add summary of streaming success
-
-### Searching Tweets
 
 ## Play notes ---------------------
 
