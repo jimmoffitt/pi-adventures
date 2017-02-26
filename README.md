@@ -20,7 +20,9 @@ The focus here will be building Tweets, Direct Messages, and email notifications
 
 The first POC here is building a client app that Tweets to a specified account when a followed account Tweets from a client-selected area.
 
-Client area is statically configured, but be driven by opt-in 'share my location' app.
+Client area is currently statically configured, but be driven by opt-in 'share my location' app.
+
+
 
 ### Posting Tweets
 
@@ -109,6 +111,38 @@ emails:
 [] Next?
 [] Storing data? Mongo? Flat-files?
 [] 
+
+
+## Project design details
+
+[] Set-up listening for Austin area gauges.
+[] When they Tweet, have @iot_tweeter tweet.
+[] Then send me an email... 
+[] That's it.
+
+
+[] Listening details:
+[] All rules have from: clause
+[] All rules have geo-clause
+[] All rules have domain specific hashtags, keywords, and urls.
+
+from:USGSTexas_Flood 
+profile_region:TX profile_locality:Austin
+point_radius:[-97.7435 30.2678 25mi] 
+
+Domain attributues:
+  keywords: "Flood,Rain,Storm,Damage,Help"
+  hastags: "#txwx,#usgs" 
+
+
+
+
+
+
+[] Stub out Rules API client that deletes and re-sends stream with geo-rule. 
+
+
+
 
 
 ## Posting Data 

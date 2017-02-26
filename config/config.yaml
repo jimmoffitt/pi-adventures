@@ -5,7 +5,7 @@ post_tweets:
   consumer_secret: "",
   access_token: "",
   access_token_secret: ""
-  app_id: 0 #Not used here, but is useful to know.
+  app_id: 0 #Not used here, but is useful to know. An organizing id at Twitter.
   
 send_dms:  
   consumer_key:    "",
@@ -26,6 +26,7 @@ notification_types:
   dms: false
   
 gnip:
+  account_name: AccountName
   user_name: me@there.com
   password: N0tmYP455w0rD
   label: dev
