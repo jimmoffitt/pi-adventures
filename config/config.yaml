@@ -1,1 +1,34 @@
 
+#twitter app details.
+post_tweets: 
+  consumer_key:    "",
+  consumer_secret: "",
+  access_token: "",
+  access_token_secret: ""
+  app_id: 0 #Not used here, but is useful to know.
+  
+send_dms:  
+  consumer_key:    "",
+  consumer_secret: "",
+  access_token: "",
+  access_token_secret: ""
+  app_id: 0 #Not used here, but is useful to know.
+ 
+#email server details.
+send_email:
+  serverName: smtp.gmail.com
+  serverIP: 0 #0=Using remote email server by name.
+  port: 
+  
+notification_types:
+  emails: false
+  tweets: true
+  dms: false
+  
+gnip:
+  user_name: me@there.com
+  password: N0tmYP455w0rD
+  label: dev
+  product: pt #pt, fas, 30day
+  #listening_rule: "from:USGSTexas_Flood (point_raduis:[-90.5 35 25mi])" #Hosted on PowerTrack server.
+  
