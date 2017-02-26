@@ -12,17 +12,50 @@ A first goal is to listen for the #iot_test hashtag with a HTTP Twitter stream, 
 
 ## Notifications
 
+/notify
+
+Posting data enables the Pi device to communicate to the outside world.  Alarms and alerts are not that useful it their notification does not get through to the intended audience. Notifications are the last and most important interface with the public and partners. 
+
+The focus here will be building Tweets, Direct Messages, and email notifications into the Pi 3 example.
+
+The first POC here is building a client app that Tweets to a specified account when a followed account Tweets from a client-selected area.
+
+Client area is statically configured, but be driven by opt-in 'share my location' app.
+
 ### Posting Tweets
 
-Posting data enables the Pi device to communicate to the outside world. Messages can be public via Tweets or private via Direct messages. An example use-case is having a weather station Tweet its readings. Another would be sending a private direct message to provide another device an 'event' to act on. 
+An example use-case is having a weather station Tweet its readings. Another would be sending a private direct message to provide another device an 'event' to act on. 
 
-Posting Tweets (and Direct Messages) is very straightforward on the Raspberry Pi. Languages such as Python, Ruby, and Java all have great resources for Tweeting. 
+Posting Tweets is very straightforward on the Raspberry Pi. Languages such as Python, Ruby, and Java all have great resources for Tweeting. 
 
 ### Sending Direct Message
 
+[] Updates.
+
+An example use-case is . Another would be sending a private direct message to provide another device an 'event' to act on. 
+
+Sending Direct Messages (DMs) is similar to posting Tweets on the Raspberry Pi. Languages such as Python, Ruby, and Java all have great resources for Tweeting.
+
 ### Sending Email
 
-## Listen
+An example use-case is emailing a group when a gauge hits a actionable threshold.  Another is to email a IFTTT server to trigger some other remote process.  
+
+Sending emails is simple in all languages and most OSs. You'll probably want a SMTP service of some kind.
+
+[] Set up SMTP service. 
+
+
+## Listening
+
+### /listen
+
+The ability to listen for Tweets of interest. Tweet attributes of interest may include #hashtags, @accounts, URLs, keywords, and location.
+
+The focus here will be listening for Tweets from a flood warning system account in an area of user interest.  
+
+
+
+
 
 ### Streaming real-time Tweets
 
@@ -224,6 +257,12 @@ Results in this Tweet:
 
 
 ## Random notes:
+
+[] Need scheduler? crontab?  
+
+
+
+
 
 First attempt to construct complete, independent Tweets when streaming with Ruby curb:
 
