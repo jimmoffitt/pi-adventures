@@ -8,22 +8,71 @@ One use-case that will drive this exploration is using Rapberry Pi 3s with early
 
 A first goal is to listen for the #iot_test hashtag with a HTTP Twitter stream, and immediately Tweet back to the sender. For this exercise I'll focus on consuming a Gnip PowerTrack stream on the Pi, and Tweet with the Public API (of course!).
 
-## Posting Data
+## Notifications
+
+### Posting Tweets
 
 Posting data enables the Pi device to communicate to the outside world. Messages can be public via Tweets or private via Direct messages. An example use-case is having a weather station Tweet its readings. Another would be sending a private direct message to provide another device an 'event' to act on. 
 
 Posting Tweets (and Direct Messages) is very straightforward on the Raspberry Pi. Languages such as Python, Ruby, and Java all have great resources for Tweeting. 
 
-## Consuming data from Gnip
+### Sending Direct Message
+
+### Sending Email
+
+## Listen
+
+### Streaming Tweets
 
 For these experiments, Gnip was the go-to source for data for a couple of reasons. First, many of the packages/gems used above to Tweet also support streaming data. So it is assumed that getting them to stream data should be straight-forward. Second, Gnip provides enterprise-grade data services that provide performance, data fidelity, and reliability demanded by early-warning systems.
 
 Gnip focuses on the delivery of Twitter data and metadata, and provides a family of products that help users filter the realtime firehose or all-time archive for Tweets of interest. Gnip provides both RESTful APIs able to retrieve data on a near realtime basis and realtime streaming APIs that deliver data with minimum latency. 
 
+## Configuration
+
+```
+#twitter app details.
+tweets: 
+  consumer_key:    "",
+  consumer_secret: "",
+  access_token: "",
+  access_token_secret: ""
+  
+dms:
+  consumer_key:    "",
+  consumer_secret: "",
+  access_token: "",
+  access_token_secret: ""
+
+#email server details.
+email:
+  serverName: smtp.gmail.com
+  serverIP: 0 #0=Using remote email server by name.
+  port: 
+  
+  
+options:
+  emails: false
+  tweets: true
+  dms: false
+
+emails: 
+  debug: 'jimmoffitt@yahoo.com'
+  prod: 'jmoffitt@twitter.com`
+  system: ''
+
+
+```
+
 [] add summary of streaming success
 
+### Searching Tweets
 
 ## Play notes ---------------------
+
+[] Next?
+[] Storing data? Mongo? Flat-files?
+[] 
 
 
 ## Posting Data 
