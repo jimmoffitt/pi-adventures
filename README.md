@@ -10,9 +10,7 @@ One use-case that will drive this exploration is using Rapberry Pi 3s with early
 
 A first goal is to listen for the #iot_test hashtag with a HTTP Twitter stream, and immediately Tweet back to the sender. For this exercise I'll focus on consuming a Gnip PowerTrack stream on the Pi, and Tweet with the Public API (of course!).
 
-## Notifications
-
-/notify
+## Notifications /notify
 
 Posting data enables the Pi device to communicate to the outside world.  Alarms and alerts are not that useful it their notification does not get through to the intended audience. Notifications are the last and most important interface with the public and partners. 
 
@@ -47,16 +45,11 @@ Sending emails is simple in all languages and most OSs. You'll probably want a S
 [] Set up SMTP service. 
 
 
-## Listening
-
-### /listen
+## Listening /listen
 
 The ability to listen for Tweets of interest. Tweet attributes of interest may include #hashtags, @accounts, URLs, keywords, and location.
 
 The focus here will be listening for Tweets from a flood warning system account in an area of user interest.  
-
-
-
 
 
 ### Streaming real-time Tweets
@@ -384,9 +377,21 @@ So, I would be re-doing these efforts a second time, but this time a bit differe
 
 ### A snow day's off worth of to-dos
 
-+ [] Rebuild Ruby and Python environments (with above recipes)
++ [] Rebuild Pi Ruby and Python environments (with above recipes)
+    + 
 + [] Clone/update laptop repository.
-+ [] Build python and ruby listeners.
+
++ [] Random code updates:
+    + [] adding config file to ruby example (instead of hardcoding consumer code with keys).
+
++ [] Synch Pi with github respository.
+    + [] git clone https://github.com/jimmoffitt/pi-adventures.git
+    
+
+
+
+
++ [] Deploy python and ruby listeners.
 + [] Trigger a Tweet from IoT account.
 
 
