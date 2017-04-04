@@ -349,22 +349,28 @@ end
 
 ### Conferences, mixed blessings.
 
-The last round of pi adventures was in preparation for a hydrology conference in Albany NY. The conference attendees had a higher chance of being accustom to tinkering with instrumentation, primarily in the efforts of flood warnings.
+The last round of pi adventures was in preparation for a hydrology conference in Albany NY. The conference attendees had a higher chance of being accustom to tinkering with instrumentation, primarily in the efforts of flood warnings. There would be a common, shared experience of having played with remote dataloggers, collecting meteorlogical data, and communication notifications. 
 
-I'd prepared a set of demos, based on the code above. Simple stuff: have someone Tweet with #IoTflood and they receive an automated response within a few seconds. The real point of the demo was to be that all of this was happening on a $35 computer with the size of a bar of soap. I'd done some testing, it seemed to work great, so I was excited.
+I'd prepared a set of demos, based on the code above. Simple stuff: have someone Tweet with #IoTflood and they receive an automated response within a few seconds. The real point of the demo was to be that all of this was happening on a $35 computer with the size of a bar of soap. I'd done some testing, it seemed to work great, and I was looking forward to showing off the potential for the Twitter network to be an important public channel of public safety communication.
 
-When I'd cranked up the demo up at the podium, in front of about 60 people, my Raspberry Pi 3 was asking what OS to install. My Pi's 'image' was gone. I was booting up a fresh Pi 3 with none of the installs, gems, packages, configurations that I'd built essentially by hand.
+When I'd cranked up the demo up at the podium, in front of about 60 people, my Raspberry Pi 3 was asking what OS to install. My Pi's 'image' was gone. I was booting up a fresh Pi 3 with none of the installs, gems, packages, configurations that I'd built essentially by hand. After a few minutes of rebooting and making demo jokes, the presentation went on. Luckily I had 60 minutes and lots of other material, so it all ended fine. 
+
+Now it's April 2017, and I am starting to prepare for another conference (or two?) in June and it is time to start climbing the demo hill again. The great hope is that the above recipes will enable me to quickly catch up to where I was before, and then have the foundation to build on. Thanks to recent Twitter Platform updates, an even more compelling demo can be designed. Since last September, there have been many Twitter platform updates (in fact exciting stuff is being announced on a weekly basis it seems) that brings new communication tools to domains of all stripes. 
+
+For the world of early-warning systems, these new skills include sending direct messages to subscribers, and enabling those subscribers to share their locations (with a [feature announced yesterday](https://blog.twitter.com/2017/businesses-can-now-share-and-request-locations-in-direct-messages)).
+
+
+### "things I learned from the Pi crash of 2016"
 
 So, I would be re-doing these efforts a second time, but this time a bit differently. My previous experiments would this time morph into best-practices. On top of that advancement, the above documentation would revisisted, tested, fixed and hopefully enhanced. 
 
-### "things I learned from the Pi crash of 2016"
 + Make back-ups of Pi SD card. 
 + Verify that packages, gems and other environmental pieces are readily available and ready to roll. Start making installs, and make sure things like gemset files are up-to-date and actually helpful.
 + Make 'laptop-dev' --> 'pi-test' iteration easier, faster.
 
 ### Demo version 2
 
-[] Listen for Tweets: #IoTflood, from:USGS_TexasFlood, Geo-based ("tunable from remote server")
+[] Listen for Tweets: #IoTflood, from:dataSource, Geo-based ("tunable from remote server")
 [] Send Tweet from IoT account
 [] Send DM to small target lit
 
