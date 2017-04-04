@@ -10,9 +10,7 @@ One use-case that will drive this exploration is using Rapberry Pi 3s with early
 
 A first goal is to listen for the #iot_test hashtag with a HTTP Twitter stream, and immediately Tweet back to the sender. For this exercise I'll focus on consuming a Gnip PowerTrack stream on the Pi, and Tweet with the Public API (of course!).
 
-## Notifications
-
-/notify
+## Notifications /notify
 
 Posting data enables the Pi device to communicate to the outside world.  Alarms and alerts are not that useful it their notification does not get through to the intended audience. Notifications are the last and most important interface with the public and partners. 
 
@@ -47,16 +45,11 @@ Sending emails is simple in all languages and most OSs. You'll probably want a S
 [] Set up SMTP service. 
 
 
-## Listening
-
-### /listen
+## Listening /listen
 
 The ability to listen for Tweets of interest. Tweet attributes of interest may include #hashtags, @accounts, URLs, keywords, and location.
 
 The focus here will be listening for Tweets from a flood warning system account in an area of user interest.  
-
-
-
 
 
 ### Streaming real-time Tweets
@@ -266,7 +259,13 @@ These systems can readily add Twitter as a broadcast channel, and have the poten
 
 ## Challenges of low-volume streams
 
-When considering challenges related to streaming Twitter data, managing high data volumes is the one that first comes to mind. When Gnip customers have issues with maintaining a stream connection, it usually is due to not keeping up and experiencing a forced disconnect after the server-side buffer fills up. When forced disconnects are happening, the go-to advice is to focus on the stream consumer object and make sure it is not doing a lot of 'heavy-lifting', not parsing JSON, not applying any logic, but instead is just writing received data to a queue... 
+When considering challenges related to streaming Twitter data, managing high data volumes is the one that first comes to mind. When Gnip customers have issues with maintaining a stream connection, it usually is due to not keeping up and experiencing a forced disconnect after the server-side buffer fills up. When forced disconnects are happening, the go-to advice, after confirming network environment is up to the task, is to focus on the stream consumer object.
+
+A stream consumer object is the app that makes a GET request to start the stream, then listens for data coming across a socket connection. As it receives the simple UTF-8 JSON text, it assembles whole JSON Tweets and put them on a queue. That's really it. Sure, there are plenty of coding details wrapped up in that quick generalization, but conceptually the process is simple.
+
+The stream consumer should not be doing a lot of 'heavy-lifting', not parsing JSON, not applying any logic, but instead is just writing received data to a queue... 
+
+*"As a stream consumer, how do I start to confirm my network environment is up to the task?"* -- a solid plan is to create rules that will be used in production (or a best guess for the rule set), and run something simple and efficient like cURL and stream your data for a while. *How long is a while?"* Depends. At least an hour or so before getting too serious about other high-volume streaming, like downstream queues, data store, and the wild world of web UIs.
 
 With the type of use-case I had in mind for the raspberry pi, I experienced a challenge due to the opposite scenario: very low volume streams. I needed to build a stream consumer that could receive very low amounts of data, such as one Tweet every hour or so. When I first tested with such a low-volume stream, I used the EventMachine-based Ruby consumer mentioned above. I started the stream consumer, and Tweeted the \#iot_test hashtag and waited... and waited... and waited. Nothing happened. I was expecting the normal second or so latency between posting the Tweet and see it arrive in my app. After about five minutes, I added a high-volume filter to my PowerTrack stream and immediately after saw the \#iot_test Tweet arrive. Turns out it was hanging out in a client-side streaming buffer until enough subsequent Tweets arrived and pushed it out of that buffer... 
 
@@ -275,6 +274,13 @@ One solution here is to dig into the EventMachine code and tinkering with its in
 So I took the Gnip simplistic curb-based Ruby code snippet, and sure enough, it handled the low-volume stream perfectly, 'surfacing' a single Tweet as fast as pure cURL. The downside of that code-based is its simplicity, with no logging, no configuration management, and no delivery of whole-Tweet, but rather generating data with Tweets sometimes split between data chunks. However, I hit a roadblock when attempting to deploy the curb-based app on the Raspberry Pi. I was unable to get the curb gem installed on the Raspbery Pi 3... 
 
 After following a few 'install curb' recipes with no success, the next step was testing other stream consumers. I spun up a Python gnippy-based stream, and got the low-volume handling I was looking for. My single Tweet showed up in about a second. 
+
+So, chalk one up for Python, but not for Ruby. (Here's a mental to-do that tweaking EventMachine to handle low volumes, or if it should already do that, fix how I am using it.) I hope to get back and do another round of Ruby low-volume streams, but for now I am happy to run with a Python 'listener' to move on to the next component, the 'notification manager.'
+
+## Notification Manager
+
+
+The Notification manager is a set of apps that know how send notifications to remote places. These notifications can arrive by Tweet, Direct Message, SMS, and email. The focus of this initial experiment will be on using the Twitter platform for managing notifications. So, we'll start with sending Tweets and Direct Messages.
 
 
 ## Building a simple Twitter bot
@@ -293,7 +299,69 @@ Results in this Tweet:
  
 
 
+
+
+## Part 2:
+
+### Conferences, mixed blessings.
+
+The last round of pi adventures was in preparation for a hydrology conference in Albany NY. The conference attendees had a higher chance of being accustom to tinkering with instrumentation, primarily in the efforts of flood warnings. There would be a common, shared experience of having played with remote dataloggers, collecting meteorlogical data, and communication notifications. 
+
+I'd prepared a set of demos, based on the code above. Simple stuff: have someone Tweet with #IoTflood and they receive an automated response within a few seconds. The real point of the demo was to be that all of this was happening on a $35 computer with the size of a bar of soap. I'd done some testing, it seemed to work great, and I was looking forward to showing off the potential for the Twitter network to be an important public channel of public safety communication.
+
+When I'd cranked up the demo up at the podium, in front of about 60 people, my Raspberry Pi 3 was asking what OS to install. My Pi's 'image' was gone. I was booting up a fresh Pi 3 with none of the installs, gems, packages, configurations that I'd built essentially by hand. After a few minutes of rebooting and making demo jokes, the presentation went on. Luckily I had 60 minutes and lots of other material, so it all ended fine. 
+
+Now it's April 2017, and I am starting to prepare for another conference (or two?) in June and it is time to start climbing the demo hill again. The great hope is that the above recipes will enable me to quickly catch up to where I was before, and then have the foundation to build on. Thanks to recent Twitter Platform updates, an even more compelling demo can be designed. Since last September, there have been many Twitter platform updates (in fact exciting stuff is being announced on a weekly basis it seems) that brings new communication tools to domains of all stripes. 
+
+For the world of early-warning systems, these new skills include sending direct messages to subscribers, and enabling those subscribers to share their locations (with a [feature announced yesterday](https://blog.twitter.com/2017/businesses-can-now-share-and-request-locations-in-direct-messages)).
+
+
+### "things I learned from the Pi crash of 2016"
+
+So, I would be re-doing these efforts a second time, but this time a bit differently. My previous experiments would this time morph into best-practices. On top of that advancement, the above documentation would revisisted, tested, fixed and hopefully enhanced. 
+
++ Make back-ups of Pi SD card. 
++ Verify that packages, gems and other environmental pieces are readily available and ready to roll. Start making installs, and make sure things like gemset files are up-to-date and actually helpful.
++ Make 'laptop-dev' --> 'pi-test' iteration easier, faster.
+
+
+
+
 ## Random notes:
+
+
+### Demo version 2
+
++ [] Listen for Tweets: #IoTflood, from:dataSource, Geo-based ("tunable from remote server")
++ [] Send Tweet from IoT account
++ [] Send DM to small target list 
++ [] and/or send email
+
++ [] Subscriber selects area of interest, receives DM when area sensor Tweets. 
+
+
+
+### A snow day's off worth of to-dos
+
++ [] Rebuild Pi Ruby and Python environments (with above recipes)
+    + 
++ [] Clone/update laptop repository.
+
++ [] Random code updates:
+    + [] adding config file to ruby example (instead of hardcoding consumer code with keys).
+
++ [] Synch Pi with github respository.
+    + [] git clone https://github.com/jimmoffitt/pi-adventures.git
+    
+
+
+
+
++ [] Deploy python and ruby listeners.
++ [] Trigger a Tweet from IoT account.
+
+
+
 
 [] Need scheduler? crontab?  
 
@@ -347,47 +415,6 @@ end
 
 ```
 
-
-## Part 2:
-
-### Conferences, mixed blessings.
-
-The last round of pi adventures was in preparation for a hydrology conference in Albany NY. The conference attendees had a higher chance of being accustom to tinkering with instrumentation, primarily in the efforts of flood warnings. There would be a common, shared experience of having played with remote dataloggers, collecting meteorlogical data, and communication notifications. 
-
-I'd prepared a set of demos, based on the code above. Simple stuff: have someone Tweet with #IoTflood and they receive an automated response within a few seconds. The real point of the demo was to be that all of this was happening on a $35 computer with the size of a bar of soap. I'd done some testing, it seemed to work great, and I was looking forward to showing off the potential for the Twitter network to be an important public channel of public safety communication.
-
-When I'd cranked up the demo up at the podium, in front of about 60 people, my Raspberry Pi 3 was asking what OS to install. My Pi's 'image' was gone. I was booting up a fresh Pi 3 with none of the installs, gems, packages, configurations that I'd built essentially by hand. After a few minutes of rebooting and making demo jokes, the presentation went on. Luckily I had 60 minutes and lots of other material, so it all ended fine. 
-
-Now it's April 2017, and I am starting to prepare for another conference (or two?) in June and it is time to start climbing the demo hill again. The great hope is that the above recipes will enable me to quickly catch up to where I was before, and then have the foundation to build on. Thanks to recent Twitter Platform updates, an even more compelling demo can be designed. Since last September, there have been many Twitter platform updates (in fact exciting stuff is being announced on a weekly basis it seems) that brings new communication tools to domains of all stripes. 
-
-For the world of early-warning systems, these new skills include sending direct messages to subscribers, and enabling those subscribers to share their locations (with a [feature announced yesterday](https://blog.twitter.com/2017/businesses-can-now-share-and-request-locations-in-direct-messages)).
-
-
-### "things I learned from the Pi crash of 2016"
-
-So, I would be re-doing these efforts a second time, but this time a bit differently. My previous experiments would this time morph into best-practices. On top of that advancement, the above documentation would revisisted, tested, fixed and hopefully enhanced. 
-
-+ Make back-ups of Pi SD card. 
-+ Verify that packages, gems and other environmental pieces are readily available and ready to roll. Start making installs, and make sure things like gemset files are up-to-date and actually helpful.
-+ Make 'laptop-dev' --> 'pi-test' iteration easier, faster.
-
-### Demo version 2
-
-+ [] Listen for Tweets: #IoTflood, from:dataSource, Geo-based ("tunable from remote server")
-+ [] Send Tweet from IoT account
-+ [] Send DM to small target list 
-+ [] and/or send email
-
-+ [] Subscriber selects area of interest, receives DM when area sensor Tweets. 
-
-
-
-### A snow day's off worth of to-dos
-
-+ [] Rebuild Ruby and Python environments (with above recipes)
-+ [] Clone/update laptop repository.
-+ [] Build python and ruby listeners.
-+ [] Trigger a Tweet from IoT account.
 
 
 
