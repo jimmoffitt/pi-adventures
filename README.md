@@ -60,50 +60,59 @@ Gnip focuses on the delivery of Twitter data and metadata, and provides a family
 
 [] add summary of streaming success
 
+
+## Challenges of low-volume streams
+
+When considering challenges related to streaming Twitter data, managing high data volumes is the one that first comes to mind. When Gnip customers have issues with maintaining a stream connection, it usually is due to not keeping up and experiencing a forced disconnect after the server-side buffer fills up. When forced disconnects are happening, the go-to advice, after confirming network environment is up to the task, is to focus on the stream consumer object.
+
+A stream consumer object is the app that makes a GET request to start the stream, then listens for data coming across a socket connection. As it receives the simple UTF-8 JSON text, it assembles whole JSON Tweets and put them on a queue. That's really it. Sure, there are plenty of coding details wrapped up in that quick generalization, but conceptually the process is simple.
+
+The stream consumer should not be doing a lot of 'heavy-lifting', not parsing JSON, not applying any logic, but instead is just writing received data to a queue... 
+
+*"As a stream consumer, how do I start to confirm my network environment is up to the task?"* -- a solid plan is to create rules that will be used in production (or a best guess for the rule set), and run something simple and efficient like cURL and stream your data for a while. *How long is a while?"* Depends. At least an hour or so before getting too serious about other high-volume streaming, like downstream queues, data store, and the wild world of web UIs.
+
+With the type of use-case I had in mind for the raspberry pi, I experienced a challenge due to the opposite scenario: very low volume streams. I needed to build a stream consumer that could receive very low amounts of data, such as one Tweet every hour or so. When I first tested with such a low-volume stream, I used the EventMachine-based Ruby consumer mentioned above. I started the stream consumer, and Tweeted the \#iot_test hashtag and waited... and waited... and waited. Nothing happened. I was expecting the normal second or so latency between posting the Tweet and see it arrive in my app. After about five minutes, I added a high-volume filter to my PowerTrack stream and immediately after saw the \#iot_test Tweet arrive. Turns out it was hanging out in a client-side streaming buffer until enough subsequent Tweets arrived and pushed it out of that buffer... 
+
+One solution here is to dig into the EventMachine code and tinkering with its internal buffers. Before doing that, I decided to experiment with a cURL-based Ruby stream consumer (used the curb gem) under the assumption that since it was based on cURL that there may not be any buffering issue. This potentially naive assumption was based on my experience with cURL and always seeing low latency with low-volume streams. 
+
+So I took the Gnip simplistic curb-based Ruby code snippet, and sure enough, it handled the low-volume stream perfectly, 'surfacing' a single Tweet as fast as pure cURL. The downside of that code-based is its simplicity, with no logging, no configuration management, and no delivery of whole-Tweet, but rather generating data with Tweets sometimes split between data chunks. However, I hit a roadblock when attempting to deploy the curb-based app on the Raspberry Pi. I was unable to get the curb gem installed on the Raspbery Pi 3... 
+
+After following a few 'install curb' recipes with no success, the next step was testing other stream consumers. I spun up a Python gnippy-based stream, and got the low-volume handling I was looking for. My single Tweet showed up in about a second. 
+
+So, chalk one up for Python, but not for Ruby. (Here's a mental to-do that tweaking EventMachine to handle low volumes, or if it should already do that, fix how I am using it.) I hope to get back and do another round of Ruby low-volume streams, but for now I am happy to run with a Python 'listener' to move on to the next component, the 'notification manager.'
+
+## Notification Manager
+
+
+The Notification manager is a set of apps that know how send notifications to remote places. These notifications can arrive by Tweet, Direct Message, SMS, and email. The focus of this initial experiment will be on using the Twitter platform for managing notifications. So, we'll start with sending Tweets and Direct Messages.
+
+
+## Building a simple Twitter bot
+
+So, I finally had both a low-volume-ready listening app and a Tweeting app deployed and running on the Pi. Even though this was a Python-based consumer and a Ruby-based Tweeter, it seemed like a fun idea to make these pieces work together. The consumer and Tweeting apps are being deployed as separate processes, so the underlying language shouldn't matter. For the first, all-Ruby curb-based attempt, the Ruby ``` `#{command}` ``` mechanism seemed to do the job. For the Python-calling-Ruby process, I went with the Python ```subprocess.check_output()``` method. See the code [HERE](https://github.com/jimmoffitt/pi-adventures/blob/master/py-stream-pi.py).
+
+This plumbing worked out of the (pi) box. I had a simple Twitter Bot runnning on a Raspbery Pi 3.
+
+So a Tweet like this with a 'trigger' hashtag:
+
+ ![](https://github.com/jimmoffitt/pi-adventures/blob/master/images/triggerTweet.jpg)
+ 
+Results in this Tweet:
+
+  ![](https://github.com/jimmoffitt/pi-adventures/blob/master/images/responseTweet.jpg)
+ 
+
+
+
 ### Searching Tweets
-
-## Configuration
-
-```
-#twitter app details.
-tweets: 
-  consumer_key:    "",
-  consumer_secret: "",
-  access_token: "",
-  access_token_secret: ""
-  
-dms:
-  consumer_key:    "",
-  consumer_secret: "",
-  access_token: "",
-  access_token_secret: ""
-
-#email server details.
-email:
-  serverName: smtp.gmail.com
-  serverIP: 0 #0=Using remote email server by name.
-  port: 
-  
-  
-options:
-  emails: false
-  tweets: true
-  dms: false
-
-emails: 
-  debug: 'jimmoffitt@yahoo.com'
-  prod: 'jmoffitt@twitter.com`
-  system: ''
-
-
-```
+TBD
 
 
 ## Play notes ---------------------
 
 [] Next?
 [] Storing data? Mongo? Flat-files?
-[] 
+[] DM API 
 
 
 ## Project design details
@@ -256,47 +265,6 @@ The general use-case to help provide data stories is based on both
 Early-warning systems are based on meterological data collection and the public safety mission of providing alarms and notifications. 
 
 These systems can readily add Twitter as a broadcast channel, and have the potential to listen for Tweets of interest. 
-
-## Challenges of low-volume streams
-
-When considering challenges related to streaming Twitter data, managing high data volumes is the one that first comes to mind. When Gnip customers have issues with maintaining a stream connection, it usually is due to not keeping up and experiencing a forced disconnect after the server-side buffer fills up. When forced disconnects are happening, the go-to advice, after confirming network environment is up to the task, is to focus on the stream consumer object.
-
-A stream consumer object is the app that makes a GET request to start the stream, then listens for data coming across a socket connection. As it receives the simple UTF-8 JSON text, it assembles whole JSON Tweets and put them on a queue. That's really it. Sure, there are plenty of coding details wrapped up in that quick generalization, but conceptually the process is simple.
-
-The stream consumer should not be doing a lot of 'heavy-lifting', not parsing JSON, not applying any logic, but instead is just writing received data to a queue... 
-
-*"As a stream consumer, how do I start to confirm my network environment is up to the task?"* -- a solid plan is to create rules that will be used in production (or a best guess for the rule set), and run something simple and efficient like cURL and stream your data for a while. *How long is a while?"* Depends. At least an hour or so before getting too serious about other high-volume streaming, like downstream queues, data store, and the wild world of web UIs.
-
-With the type of use-case I had in mind for the raspberry pi, I experienced a challenge due to the opposite scenario: very low volume streams. I needed to build a stream consumer that could receive very low amounts of data, such as one Tweet every hour or so. When I first tested with such a low-volume stream, I used the EventMachine-based Ruby consumer mentioned above. I started the stream consumer, and Tweeted the \#iot_test hashtag and waited... and waited... and waited. Nothing happened. I was expecting the normal second or so latency between posting the Tweet and see it arrive in my app. After about five minutes, I added a high-volume filter to my PowerTrack stream and immediately after saw the \#iot_test Tweet arrive. Turns out it was hanging out in a client-side streaming buffer until enough subsequent Tweets arrived and pushed it out of that buffer... 
-
-One solution here is to dig into the EventMachine code and tinkering with its internal buffers. Before doing that, I decided to experiment with a cURL-based Ruby stream consumer (used the curb gem) under the assumption that since it was based on cURL that there may not be any buffering issue. This potentially naive assumption was based on my experience with cURL and always seeing low latency with low-volume streams. 
-
-So I took the Gnip simplistic curb-based Ruby code snippet, and sure enough, it handled the low-volume stream perfectly, 'surfacing' a single Tweet as fast as pure cURL. The downside of that code-based is its simplicity, with no logging, no configuration management, and no delivery of whole-Tweet, but rather generating data with Tweets sometimes split between data chunks. However, I hit a roadblock when attempting to deploy the curb-based app on the Raspberry Pi. I was unable to get the curb gem installed on the Raspbery Pi 3... 
-
-After following a few 'install curb' recipes with no success, the next step was testing other stream consumers. I spun up a Python gnippy-based stream, and got the low-volume handling I was looking for. My single Tweet showed up in about a second. 
-
-So, chalk one up for Python, but not for Ruby. (Here's a mental to-do that tweaking EventMachine to handle low volumes, or if it should already do that, fix how I am using it.) I hope to get back and do another round of Ruby low-volume streams, but for now I am happy to run with a Python 'listener' to move on to the next component, the 'notification manager.'
-
-## Notification Manager
-
-
-The Notification manager is a set of apps that know how send notifications to remote places. These notifications can arrive by Tweet, Direct Message, SMS, and email. The focus of this initial experiment will be on using the Twitter platform for managing notifications. So, we'll start with sending Tweets and Direct Messages.
-
-
-## Building a simple Twitter bot
-
-So, I finally had both a low-volume-ready listening app and a Tweeting app deployed and running on the Pi. Even though this was a Python-based consumer and a Ruby-based Tweeter, it seemed like a fun idea to make these pieces work together. The consumer and Tweeting apps are being deployed as separate processes, so the underlying language shouldn't matter. For the first, all-Ruby curb-based attempt, the Ruby ``` `#{command}` ``` mechanism seemed to do the job. For the Python-calling-Ruby process, I went with the Python ```subprocess.check_output()``` method. See the code [HERE](https://github.com/jimmoffitt/pi-adventures/blob/master/py-stream-pi.py).
-
-This plumbing worked out of the (pi) box. I had a simple Twitter Bot runnning on a Raspbery Pi 3.
-
-So a Tweet like this with a 'trigger' hashtag:
-
- ![](https://github.com/jimmoffitt/pi-adventures/blob/master/images/triggerTweet.jpg)
- 
-Results in this Tweet:
-
-  ![](https://github.com/jimmoffitt/pi-adventures/blob/master/images/responseTweet.jpg)
- 
 
 
 
