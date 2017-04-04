@@ -21,9 +21,9 @@ send_email:
   port: 
   
 notification_types:
-  emails: false
   tweets: true
   dms: false
+  emails: false
   
 gnip:
   account_name: AccountName

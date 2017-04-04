@@ -59,14 +59,15 @@ class PtStream
 	  config = YAML.load_file(config_file)
 
 	  #Set account values.
-	  @account_name = config['account']['name']
-	  @user_name = config['account']['user_name']
-	  @password_encoded = config['account']['password_encoded']
-	  @password = getPassword
-
+	  @account_name = config['gnip']['account_name']
+	  @user_name = config['gnip']['user_name']
+	  #@password_encoded = config['gnip']['password_encoded']
+	  #@password = getPassword
+      @password = config['gnip']['password']
+	  
 	  #Set stream details.
-	  @stream_label = config['stream']['label']
-	  @output = config['stream']['output']
+	  @stream_label = config['gnip']['label']
+	  #@output = config['stream']['output']
 
 	  @url = setURL
 
@@ -77,7 +78,7 @@ class PtStream
    end
 
    def setURL
-	  "https://stream.gnip.com:443/accounts/#{@account_name}/publishers/twitter/streams/track/#{@stream_label}.json"
+	  "https://gnip-stream.twitter.com/stream/powertrack/accounts/#{@account_name}/publishers/twitter/#{@stream_label}.json"
    end
 
    #NativeID is defined as a string.  This works for Twitter, but not for other publishers who use alphanumerics.
@@ -180,7 +181,7 @@ class PtStream
 
 	  log.debug 'Entering processResponseJSON'
 
-	  if @output == 'stdout' then
+	  if @output == 'stdout' or @output.nil?
 		 puts activity
 		 return #all done here, not writing to db.
 	  end
@@ -285,7 +286,7 @@ if __FILE__ == $0 #This script code is executed when running this file.
    end
 
    if $config.nil?
-	  $config = "./config_private.yaml" #Default
+	  $config = "./config.yaml" #Default
    end
 
    pt = PtStream.new($config)
