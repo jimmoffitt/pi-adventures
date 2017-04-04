@@ -370,19 +370,20 @@ So, I would be re-doing these efforts a second time, but this time a bit differe
 
 ### Demo version 2
 
-[] Listen for Tweets: #IoTflood, from:dataSource, Geo-based ("tunable from remote server")
-[] Send Tweet from IoT account
-[] Send DM to small target lit
++ [] Listen for Tweets: #IoTflood, from:dataSource, Geo-based ("tunable from remote server")
++ [] Send Tweet from IoT account
++ [] Send DM to small target list 
++ [] and/or send email
 
-[] Subscriber selects area of interest, receives DM when area sensor Tweets. 
++ [] Subscriber selects area of interest, receives DM when area sensor Tweets. 
 
 
 
 ### A snow day's off worth of to-dos
 
-[] Clone/update laptop repository.
-[] Build python and ruby listeners.
-[] Trigger a Tweet from IoT account.
++ [] Clone/update laptop repository.
++ [] Build python and ruby listeners.
++ [] Trigger a Tweet from IoT account.
 
 
 
