@@ -344,3 +344,46 @@ end
 
 ```
 
+
+## Part 2:
+
+### Conferences, mixed blessings.
+
+The last round of pi adventures was in preparation for a hydrology conference in Albany NY. The conference attendees had a higher chance of being accustom to tinkering with instrumentation, primarily in the efforts of flood warnings.
+
+I'd prepared a set of demos, based on the code above. Simple stuff: have someone Tweet with #IoTflood and they receive an automated response within a few seconds. The real point of the demo was to be that all of this was happening on a $35 computer with the size of a bar of soap. I'd done some testing, it seemed to work great, so I was excited.
+
+When I'd cranked up the demo up at the podium, in front of about 60 people, my Raspberry Pi 3 was asking what OS to install. My Pi's 'image' was gone. I was booting up a fresh Pi 3 with none of the installs, gems, packages, configurations that I'd built essentially by hand.
+
+So, I would be re-doing these efforts a second time, but this time a bit differently. My previous experiments would this time morph into best-practices. On top of that advancement, the above documentation would revisisted, tested, fixed and hopefully enhanced. 
+
+### "things I learned from the Pi crash of 2016"
++ Make back-ups of Pi SD card. 
++ Verify that packages, gems and other environmental pieces are readily available and ready to roll. Start making installs, and make sure things like gemset files are up-to-date and actually helpful.
++ Make 'laptop-dev' --> 'pi-test' iteration easier, faster.
+
+### Demo version 2
+
+[] Listen for Tweets: #IoTflood, from:USGS_TexasFlood, Geo-based ("tunable from remote server")
+[] Send Tweet from IoT account
+[] Send DM to small target lit
+
+[] Subscriber selects area of interest, receives DM when area sensor Tweets. 
+
+
+
+### A snow day's off worth of to-dos
+
+[] Clone/update laptop repository.
+[] Build python and ruby listeners.
+[] Trigger a Tweet from IoT account.
+
+
+
+
+
+
+
+
+
+
