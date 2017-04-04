@@ -173,16 +173,22 @@ Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ru
  [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/notify/tweet/post_tweet.rb) 
    + Note: failed to build native extensions before the previous ruby install.
 
-### Java example
-
-[] TODO
 
 
 ## Consuming data from Gnip
 
-The use-case driving these experiments is enabling a device to listen for commands via Twitter. Data can be received by either making polls on some interval, or streaming in realtime.
+The use-case driving these experiments is enabling a device to listen for Twitter events, and notify a remote subscriber of an event... 
+
+Data can be received by either making polls on some interval, or streaming in realtime.
+
+
+### High-level developer summary
+
++ Tweets encoded on JSON. JSON written with UTF-8 character sets.
++ Example code is based on 'original' JSON format. Referred to by Gnip products as 'original' format. If you are more accustom to the 'activity format (AS)' format, any parsing details should be relatively easy to convert to the original format. See [HERE]() for more details.
 
 + Polling systems based on Gnip Search APIs (or Twitter public APIs) should be relatively easy to set-up.
+    + Need poll managers.
 + Realtime streaming may be overkill but seems like an interesting POC, enabling realtime control with low latency.
 
 ## Restful Search APIs
@@ -246,6 +252,13 @@ Bug reports are welcome.
 For details: http://www.ruby-lang.org/bugreport.html
 ```
 
+
+## Java examples
+
+[] TODO - Java stream consumer?
+
+
+
 ### Java HBCpt2
 
 Seems like pi in the sky at this point. Currently attempting to deploy by hand the [HBC udpated for ptv2](https://github.com/jimmoffitt/hbc).
@@ -283,7 +296,6 @@ Now it's April 2017, and I am starting to prepare for another conference (or two
 
 For the world of early-warning systems, these new skills include sending direct messages to subscribers, and enabling those subscribers to share their locations (with a [feature announced yesterday](https://blog.twitter.com/2017/businesses-can-now-share-and-request-locations-in-direct-messages)).
 
-
 ### "things I learned from the Pi crash of 2016"
 
 So, I would be re-doing these efforts a second time, but this time a bit differently. My previous experiments would this time morph into best-practices. On top of that advancement, the above documentation would revisisted, tested, fixed and hopefully enhanced. 
@@ -293,10 +305,11 @@ So, I would be re-doing these efforts a second time, but this time a bit differe
 + Make 'laptop-dev' --> 'pi-test' iteration easier, faster.
 
 
-
-
 ## Random notes:
 
+### Demo version 1
++ [] Deploy python and ruby listeners.
++ [] Trigger a Tweet from IoT account.
 
 ### Demo version 2
 
@@ -321,17 +334,9 @@ So, I would be re-doing these efforts a second time, but this time a bit differe
 + [] Synch Pi with github respository.
     + [] git clone https://github.com/jimmoffitt/pi-adventures.git
     
+### code notes.
 
 
-
-
-+ [] Deploy python and ruby listeners.
-+ [] Trigger a Tweet from IoT account.
-
-
-
-
-[] Need scheduler? crontab?  
 
 
 
