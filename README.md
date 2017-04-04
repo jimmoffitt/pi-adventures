@@ -162,8 +162,11 @@ Have Tweeted with these two packages. No issues with getting started.
 Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ruby install. 
 
 + gem install bundle
-+ sudo apt-get install ruby-install
++ sudo apt-get install ruby-full
 + gem install twitter 
+ 
+ + [sudo apt-get install ruby-full] fails with hint to apt-get update (which went well).
+ + That hint seemed to help ;)
  
  [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/notify/tweet/post_tweet.rb) 
    + Note: failed to build native extensions before the previous ruby install.
@@ -381,6 +384,7 @@ So, I would be re-doing these efforts a second time, but this time a bit differe
 
 ### A snow day's off worth of to-dos
 
++ [] Rebuild Ruby and Python environments (with above recipes)
 + [] Clone/update laptop repository.
 + [] Build python and ruby listeners.
 + [] Trigger a Tweet from IoT account.
