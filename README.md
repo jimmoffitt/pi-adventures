@@ -16,7 +16,7 @@
 	
 + [Code notes and examples](#notes)
 	+ [Streaming data from PowerTrack on Pi](#streaming-pi-code)
-	+ [What I learned from the Great Pi Confernece Chrash of 2016](#round-two)
+	+ [What I learned from the Great Pi Confernece Demo Crash of 2016](#round-two)
 
 ## Introduction <a id="intro" class="tall">&nbsp;</a>
 
@@ -31,7 +31,6 @@ One use-case that will drive this exploration is *early-warning systems*, system
 Building early-warning system components on a "micro" computer is very compelling. The device used here is a [Raspberry Pi 3, Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/). The Pi 3 runs many flavors of Linux and has a 1.2GHz quad-core, 1 GB RAM, micro-SD card slot, Bluetooth, 802.11n Wireless LAN, full HMDI, and 4 USB ports. On top of those computing skills, it costs around US$ 35, and is the size of a bar of soap. Wow. 
 
 With these devices it is easy to envision remote devices that collect weather data and forward them to base stations. It is also easy to imagine a remote device not only listens for triggers, but also natively sends notifications via networks such as Twitter. Although power consumption may be an issue with remote, off-the-grid weather stations, in other fuller-power settings, the Pi 3 capabilites are exciting. (if the Pi 3's power consumption is a blocker, there are other lower power options like the [Pi Zero](https://www.raspberrypi.org/products/pi-zero/) and [Pi 1 Model A+](https://www.raspberrypi.org/products/model-a-plus/). More power consumption information [HERE](https://www.raspberrypi.org/help/faqs/)).
-
 
 ## Design Goals <a id="design-goals" class="tall">&nbsp;</a>
 
@@ -301,7 +300,6 @@ Bug reports are welcome.
 For details: http://www.ruby-lang.org/bugreport.html
 ```
 
-------------------------------------------------
 ### Java/Scala examples - notes
 
 [] TODO - Java stream consumer?
