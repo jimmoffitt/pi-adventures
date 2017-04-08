@@ -10,9 +10,11 @@
 + [Article-like pieces](#articles)
 	+ [Challenges of low-volume streams](#low-volume-streams)
 	+ [Building a simple Twitter Responder](#twitter-responder)
-	+ [Conferences Demos, mixed blessings]#conference-demos)
-
-+ [Code notes and examples](#code-notes)
+	+ [Conferences Demos, mixed blessings](#conference-demos)
+	
+-----------------------------------------------
+	
++ [Code notes and examples](#notes)
 
 ## Introduction <a id="intro" class="tall">&nbsp;</a>
 
@@ -170,7 +172,7 @@ I have fifty-eight days until the next conference. I better get cracking.
 
 
 
-
+## Notes <a id="notes" class="tall">&nbsp;</a>
 
 
 
@@ -395,7 +397,6 @@ Domain attributues:
 + [] Synch Pi with github respository.
     + [] git clone https://github.com/jimmoffitt/pi-adventures.git
     
-### code notes.
 
 
 
