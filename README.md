@@ -1,16 +1,41 @@
 # adventures in pi
 
++ [Introduction](#intro)
++ [Design goals](#design-goals)
++ [Core Functionality] (#core-functionality)
++ [Listening](#listen)
++ [Notifying](#notify)
+
+## Introduction <a id="intro" class="tall">&nbsp;</a>
+
 A collection of notes about setting up a Raspberry Pi 3 for posting and collecting Twitter data. So far playing with Ruby, Python and Java. Node.js should be on this list too. 
 
-Covers two-way communication, both sending notifications (to the outside world), and listening for messages (from the Twitter Platform). 
+Covers two-way communication, both sending notifications (to the outside world), and listening for messages (from the Twitter Platform). Possible notifications include posting Tweets, sending private Direct Messages, and sending emails. 
 
-Possible notifications include posting Tweets, sending private Direct Messages, and sending emails. 
+This functionality, and the example code that goes with it, is the primary goal. Deploying this on a Raspberry Pi is just part of the adventure. Beyond seeming like a fun exercise, doing that will help demonstrate that the underlying use of the Twitter APIs can be done in a very *light-weight* fashion. That it is very possible to combine Raspberry Pis, Twitter APIs, and a software language of your choice and stand up a remote, real-time notification system.
 
-One use-case that will drive this exploration is using Rapberry Pi 3s with early-warning systems, pondering remote sites that collect data. Although the power consumption may be an issue with remote, off-the-grid weather stations, in other fuller-power settings, the Pi 3 capabilites are exciting.
+One use-case that will drive this exploration is *early-warning systems*, systems that *listen* for triggers and *notify* *subsribers* when a *threshold* of concern is met. Early-warning systems have many applications, but here we are going to be focused on *flood* warning systems. These systems collect a variety of real-time *weather* data, test incoming data against a set of *alarm thresholds*, and then *notify* subscribers. Flood early-warning systems are based on a set of remote, distributed *components*. These include a network of data collection sites and a *base station* that compiles and shares incoming data, as well as managing alarm definitions and notifications. There are a variety of communication protcols used to exchange data between these components, including line-of-sight radio, satellite, and HTTP over LAN, celluar, and wireless internet.
+
+Building early-warning system components on a "micro" computer is very compelling. The device used here is a [Raspberry Pi 3, Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/). The Pi 3 runs many flavors of Linux and has a 1.2GHz quad-core, 1 GB RAM, micro-SD card slot, Bluetooth, 802.11n Wireless LAN, full HMDI, and 4 USB ports. On top of those computing skills, it costs around US$ 35, and is the size of a bar of soap. Wow. 
+
+With these devices it is easy to envision remote devices that collect weather data and forward them to base stations. It is also easy to imagine a remote device not only listens for triggers, but also natively sends notifications via networks such as Twitter. Although power consumption may be an issue with remote, off-the-grid weather stations, in other fuller-power settings, the Pi 3 capabilites are exciting. (if the Pi 3's power consumption is a blocker, there are other lower power options like the [Pi Zero](https://www.raspberrypi.org/products/pi-zero/) and [Pi 1 Model A+](https://www.raspberrypi.org/products/model-a-plus/). More power consumption information [HERE](https://www.raspberrypi.org/help/faqs/)).
+
+
+## Design Goals <a id="design-goals" class="tall">&nbsp;</a>
+
+Demo goals really...
 
 A first goal is to listen for the #iot_test hashtag with a HTTP Twitter stream, and immediately Tweet back to the sender. For this exercise I'll focus on consuming a Gnip PowerTrack stream on the Pi, and Tweet with the Public API (of course!).
 
-## Notifications /notify
+Next steps would be:
++ Running *listener* that triggers on Tweets coming from an *area of interest*, a select 25mix25mi bounding-box.
+	+ When a trigger Tweet is received, a *Notify* app notifies a list of subscribers to that area of interest.
+    
++ With Twitter DM API, enroll subscribers and have them share their *area of interest*.
+
+## Core functionality/components <a id="core-functionality" class="tall">&nbsp;</a>
+
+### Notifications /notify
 
 Posting data enables the Pi device to communicate to the outside world.  Alarms and alerts are not that useful it their notification does not get through to the intended audience. Notifications are the last and most important interface with the public and partners. 
 
@@ -22,13 +47,13 @@ Client area is currently statically configured, but be driven by opt-in 'share m
 
 
 
-### Posting Tweets
+#### Posting Tweets
 
 An example use-case is having a weather station Tweet its readings. Another would be sending a private direct message to provide another device an 'event' to act on. 
 
 Posting Tweets is very straightforward on the Raspberry Pi. Languages such as Python, Ruby, and Java all have great resources for Tweeting. 
 
-### Sending Direct Message
+#### Sending Direct Message
 
 [] Updates.
 
@@ -45,7 +70,7 @@ Sending emails is simple in all languages and most OSs. You'll probably want a S
 [] Set up SMTP service. 
 
 
-## Listening /listen
+## Listening /listen <a id="listen" class="tall">&nbsp;</a>
 
 The ability to listen for Tweets of interest. Tweet attributes of interest may include #hashtags, @accounts, URLs, keywords, and location.
 
@@ -81,7 +106,9 @@ After following a few 'install curb' recipes with no success, the next step was 
 
 So, chalk one up for Python, but not for Ruby. (Here's a mental to-do that tweaking EventMachine to handle low volumes, or if it should already do that, fix how I am using it.) I hope to get back and do another round of Ruby low-volume streams, but for now I am happy to run with a Python 'listener' to move on to the next component, the 'notification manager.'
 
-## Notification Manager
+
+
+## Notifications <a id="notify" class="tall">&nbsp;</a>
 
 
 The Notification manager is a set of apps that know how send notifications to remote places. These notifications can arrive by Tweet, Direct Message, SMS, and email. The focus of this initial experiment will be on using the Twitter platform for managing notifications. So, we'll start with sending Tweets and Direct Messages.
@@ -390,9 +417,16 @@ end
 
 ```
 
+#### Pi Power Requirements
 
+ 	      Pi1 (B+)	Pi2 B	Pi3 B (Amps)	Zero (Amps)
+Boot	Max	0.26	0.40	0.75	          0.20
+        Avg	0.22	0.22	0.35	          0.15
 
+Idle	Avg	0.20	0.22	0.30	          0.10
 
+Stress	Max	0.35	0.82	1.34	          0.35
+        Avg	0.32	0.75	0.85	          0.23
 
 
 
