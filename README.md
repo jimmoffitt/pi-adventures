@@ -15,6 +15,8 @@
 -----------------------------------------------
 	
 + [Code notes and examples](#notes)
+	+ [Streaming data from PowerTrack on Pi](#streaming-pi-code)
+	+ [What I learned from the Great Pi Confernece Chrash of 2016](#round-two)
 
 ## Introduction <a id="intro" class="tall">&nbsp;</a>
 
@@ -193,8 +195,7 @@ I have fifty-eight days until the next conference. I better get cracking.
 + Node
 
 
-
-## Posting Data 
+## Posting Tweets <a id="post-tweets" class="tall">&nbsp;</a>
 
 ### Python and Twitter API
 
@@ -221,10 +222,9 @@ Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ru
    + Note: failed to build native extensions before the previous ruby install.
 
 
+-----------------------------------------
 
-
-
-## Consuming data from Gnip
+## Streaming data from PowerTrack on Pi <a id="streaming-pi-code" class="tall">&nbsp;</a>
 
 The use-case driving these experiments is enabling a device to listen for Twitter events, and notify a remote subscriber of an event... 
 
@@ -301,14 +301,12 @@ Bug reports are welcome.
 For details: http://www.ruby-lang.org/bugreport.html
 ```
 
-
-## Java examples
+------------------------------------------------
+### Java/Scala examples - notes
 
 [] TODO - Java stream consumer?
 
-
-
-### Java HBCpt2
+#### Java HBCpt2
 
 Seems like pi in the sky at this point. Currently attempting to deploy by hand the [HBC udpated for ptv2](https://github.com/jimmoffitt/hbc).
 
@@ -316,6 +314,22 @@ Seems like pi in the sky at this point. Currently attempting to deploy by hand t
 + Have deployed compiles classes on Pi, but external libraries are not found.
 + Playing around with $PATH, so far to no avail. 
 
+
+
+
+
+## Round 2: "What I learned from the Great Pi Confernece Demo Crash of 2016" <a id="round-two" class="tall">&nbsp;</a>
+
+So, I would be re-doing these efforts a second time, but this time a bit differently. My previous experiments would this time morph into best-practices. On top of that advancement, the above documentation would revisisted, tested, fixed and hopefully enhanced. 
+
++ Make back-ups of Pi SD card. 
++ Verify that packages, gems and other environmental pieces are readily available and ready to roll. Start making installs, and make sure things like gemset files are up-to-date and actually helpful.
++ Make 'laptop-dev' --> 'pi-test' iteration easier, faster.
+
+
+-------------------------------
+
+## Project design details
 
 ### Notes
 
@@ -327,24 +341,6 @@ The general use-case to help provide data stories is based on both
 Early-warning systems are based on meterological data collection and the public safety mission of providing alarms and notifications. 
 
 These systems can readily add Twitter as a broadcast channel, and have the potential to listen for Tweets of interest. 
-
-
-
-
-## Part 2:
-
-### "things I learned from the Pi crash of 2016"
-
-So, I would be re-doing these efforts a second time, but this time a bit differently. My previous experiments would this time morph into best-practices. On top of that advancement, the above documentation would revisisted, tested, fixed and hopefully enhanced. 
-
-+ Make back-ups of Pi SD card. 
-+ Verify that packages, gems and other environmental pieces are readily available and ready to roll. Start making installs, and make sure things like gemset files are up-to-date and actually helpful.
-+ Make 'laptop-dev' --> 'pi-test' iteration easier, faster.
-
-
-
-
-## Project design details
 
 [] Set-up listening for Austin area gauges.
 [] When they Tweet, have @iot_tweeter tweet.
