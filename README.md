@@ -2,9 +2,18 @@
 
 + [Introduction](#intro)
 + [Design goals](#design-goals)
-+ [Core Functionality] (#core-functionality)
+
++ [Core Functionality](#core-functionality)
 + [Listening](#listen)
 + [Notifying](#notify)
+
++ [Article-like pieces](#articles)
++[Challenges of low-volume streams](#low-volume-streams)
++[Building a simple Twitter Responder](#twitter-responder)
++[Conferences Demos, mixed blessings]#conference-demos)
+
+
++ [Code notes and examples](#code-notes)
 
 ## Introduction <a id="intro" class="tall">&nbsp;</a>
 
@@ -35,7 +44,23 @@ Next steps would be:
 
 ## Core functionality/components <a id="core-functionality" class="tall">&nbsp;</a>
 
-### Notifications /notify
+### Listening --> /listen <a id="listen" class="tall">&nbsp;</a>
+
+#### Streaming real-time Tweets
+
+For these experiments, Gnip was the go-to source for data for a couple of reasons. First, many of the packages/gems used above to Tweet also support streaming data. So it is assumed that getting them to stream data should be straight-forward. Second, Gnip provides enterprise-grade data services that provide performance, data fidelity, and reliability demanded by early-warning systems.
+
+Gnip focuses on the delivery of Twitter data and metadata, and provides a family of products that help users filter the realtime firehose or all-time archive for Tweets of interest. Gnip provides both RESTful APIs able to retrieve data on a near realtime basis and realtime streaming APIs that deliver data with minimum latency. 
+
+[] add summary of streaming success
+
+
+
+
+### Notifications --> /notify<a id="notify" class="tall">&nbsp;</a>
+
+
+The Notification manager is a set of apps that know how send notifications to remote places. These notifications can arrive by Tweet, Direct Message, SMS, and email. The focus of this initial experiment will be on using the Twitter platform for managing notifications. So, we'll start with sending Tweets and Direct Messages.
 
 Posting data enables the Pi device to communicate to the outside world.  Alarms and alerts are not that useful it their notification does not get through to the intended audience. Notifications are the last and most important interface with the public and partners. 
 
@@ -45,7 +70,10 @@ The first POC here is building a client app that Tweets to a specified account w
 
 Client area is currently statically configured, but be driven by opt-in 'share my location' app.
 
-
+#### Notification methods
++ Sending Tweets
++ Sending Direct Messages
++ Sending emails
 
 #### Posting Tweets
 
@@ -53,7 +81,7 @@ An example use-case is having a weather station Tweet its readings. Another woul
 
 Posting Tweets is very straightforward on the Raspberry Pi. Languages such as Python, Ruby, and Java all have great resources for Tweeting. 
 
-#### Sending Direct Message
+##### Sending Direct Message
 
 [] Updates.
 
@@ -61,7 +89,7 @@ An example use-case is . Another would be sending a private direct message to pr
 
 Sending Direct Messages (DMs) is similar to posting Tweets on the Raspberry Pi. Languages such as Python, Ruby, and Java all have great resources for Tweeting.
 
-### Sending Email
+##### Sending Email
 
 An example use-case is emailing a group when a gauge hits a actionable threshold.  Another is to email a IFTTT server to trigger some other remote process.  
 
@@ -77,16 +105,16 @@ The ability to listen for Tweets of interest. Tweet attributes of interest may i
 The focus here will be listening for Tweets from a flood warning system account in an area of user interest.  
 
 
-### Streaming real-time Tweets
-
-For these experiments, Gnip was the go-to source for data for a couple of reasons. First, many of the packages/gems used above to Tweet also support streaming data. So it is assumed that getting them to stream data should be straight-forward. Second, Gnip provides enterprise-grade data services that provide performance, data fidelity, and reliability demanded by early-warning systems.
-
-Gnip focuses on the delivery of Twitter data and metadata, and provides a family of products that help users filter the realtime firehose or all-time archive for Tweets of interest. Gnip provides both RESTful APIs able to retrieve data on a near realtime basis and realtime streaming APIs that deliver data with minimum latency. 
-
-[] add summary of streaming success
 
 
-## Challenges of low-volume streams
+
+
+
+
+
+## Other Random Thoughts <a id="articles" class="tall">&nbsp;</a>
+
+### Challenges of low-volume streams <a id="low-volume-streams" class="tall">&nbsp;</a>
 
 When considering challenges related to streaming Twitter data, managing high data volumes is the one that first comes to mind. When Gnip customers have issues with maintaining a stream connection, it usually is due to not keeping up and experiencing a forced disconnect after the server-side buffer fills up. When forced disconnects are happening, the go-to advice, after confirming network environment is up to the task, is to focus on the stream consumer object.
 
@@ -107,14 +135,7 @@ After following a few 'install curb' recipes with no success, the next step was 
 So, chalk one up for Python, but not for Ruby. (Here's a mental to-do that tweaking EventMachine to handle low volumes, or if it should already do that, fix how I am using it.) I hope to get back and do another round of Ruby low-volume streams, but for now I am happy to run with a Python 'listener' to move on to the next component, the 'notification manager.'
 
 
-
-## Notifications <a id="notify" class="tall">&nbsp;</a>
-
-
-The Notification manager is a set of apps that know how send notifications to remote places. These notifications can arrive by Tweet, Direct Message, SMS, and email. The focus of this initial experiment will be on using the Twitter platform for managing notifications. So, we'll start with sending Tweets and Direct Messages.
-
-
-## Building a simple Twitter bot
+### Building a simple Twitter Responder <a id="twitter-responder" class="tall">&nbsp;</a>
 
 So, I finally had both a low-volume-ready listening app and a Tweeting app deployed and running on the Pi. Even though this was a Python-based consumer and a Ruby-based Tweeter, it seemed like a fun idea to make these pieces work together. The consumer and Tweeting apps are being deployed as separate processes, so the underlying language shouldn't matter. For the first, all-Ruby curb-based attempt, the Ruby ``` `#{command}` ``` mechanism seemed to do the job. For the Python-calling-Ruby process, I went with the Python ```subprocess.check_output()``` method. See the code [HERE](https://github.com/jimmoffitt/pi-adventures/blob/master/py-stream-pi.py).
 
@@ -127,7 +148,36 @@ So a Tweet like this with a 'trigger' hashtag:
 Results in this Tweet:
 
   ![](https://github.com/jimmoffitt/pi-adventures/blob/master/images/responseTweet.jpg)
+  
+  
+  
  
+### Conference Demos, mixed blessings. <a id="conference-demos" class="tall">&nbsp;</a>
+
+The last round of pi adventures was in preparation for a hydrology conference in Albany NY in September 2016. The conference attendees had a high chance of being accustom to tinkering with instrumentation, primarily in the efforts of flood warnings. There would be a common, shared experience of having played with remote dataloggers, collecting meteorlogical data, and sending notifications. 
+
+I'd prepared a set of demos, based on the code above. Simple stuff: have someone Tweet with #IoTflood and they receive an automated response within a few seconds. The real point of the demo was to be that all of this was happening on a $35 computer with the size of a bar of soap. Another key point was the lack of latency between a 'request' Tweet, and the 'response' Tweet. Receiving a response in a few seconds should resonate with this audience. I'd done some testing, it seemed to work great, and I was looking forward to showing off the potential for the Twitter network to be an important public channel of public safety communication. 
+
+When I'd cranked up the demo up at the podium, in front of about 60 people, my Raspberry Pi 3 was asking what OS to install. My Pi's 'image' was gone. I was booting up a fresh Pi 3 with none of the installs, gems, packages, configurations that I'd built essentially by hand. After a few minutes of rebooting and making demo jokes, the presentation went on. Luckily I had 60 minutes and lots of other material, so it all ended fine. 
+
+My 'Tweeting in the Rain' talks have spent considerable time on both the "why" and "how" of integrating Twitter with early-warning systems. Early on (way back in 2012!) the focus was on the 'why' at conferences where social media was not a primary focus. I first presented on the topic of Twitter and flood warning systems in 2013. The hydrologic warning conference did not have a 'social media' track, and our talk was on the challenges and opportunities of integrating Twitter. Most of the material was based on parts 1-3 of this series of Gnip blog posts. Part 3 was posted approximately 10 hours before Boulder County was at the start of an historic flood. See Part 4 to see how the 2013 Colorado flood unfolded on Twitter. 
+
+Now it's April 2017, and I am starting to prepare for another conference (or two?) in June and it is time to start climbing the demo hill again. The great hope is that the above recipes will enable me to quickly catch up to where I was before, and then have the foundation to build on. Thanks to recent Twitter Platform updates, an even more compelling demo can be designed. Since last September, there have been many Twitter platform updates (in fact exciting stuff is being announced on a weekly basis it seems) that brings new communication tools to domains of all stripes. 
+
+For the world of early-warning systems, these new skills include sending direct messages to subscribers, and enabling those subscribers to share their locations (with a [feature announced yesterday](https://blog.twitter.com/2017/businesses-can-now-share-and-request-locations-in-direct-messages)).
+
+I have fifty-eight days until the next conference. I better get cracking. 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -172,6 +222,18 @@ Domain attributues:
 
 
 
+## Pi 3 and code *environments*
+
+Ruby
+
+Rebuilding the Ruby environment, twice now, seems like a total PITA. 
+
+
+Python
+
+
+Node
+
 
 
 ## Posting Data 
@@ -190,7 +252,7 @@ Have Tweeted with these two packages. No issues with getting started.
 
 Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ruby install. 
 
-+ gem install bundle
++ gem install bundle (ah, helps to have a Gemfile for this...)
 + sudo apt-get install ruby-full
 + gem install twitter 
  
@@ -199,6 +261,8 @@ Have Tweeted with the 'twitter' gem. Needed to install bundler and do a fresh ru
  
  [Example code](https://github.com/jimmoffitt/pi-adventures/blob/master/notify/tweet/post_tweet.rb) 
    + Note: failed to build native extensions before the previous ruby install.
+
+
 
 
 
@@ -310,20 +374,6 @@ These systems can readily add Twitter as a broadcast channel, and have the poten
 
 
 ## Part 2:
-
-### Conferences, mixed blessings.
-
-The last round of pi adventures was in preparation for a hydrology conference in Albany NY in September 2016. The conference attendees had a high chance of being accustom to tinkering with instrumentation, primarily in the efforts of flood warnings. There would be a common, shared experience of having played with remote dataloggers, collecting meteorlogical data, and sending notifications. 
-
-I'd prepared a set of demos, based on the code above. Simple stuff: have someone Tweet with #IoTflood and they receive an automated response within a few seconds. The real point of the demo was to be that all of this was happening on a $35 computer with the size of a bar of soap. Another key point was the lack of latency between a 'request' Tweet, and the 'response' Tweet. Receiving a response in a few seconds should resonate with this audience. I'd done some testing, it seemed to work great, and I was looking forward to showing off the potential for the Twitter network to be an important public channel of public safety communication. 
-
-When I'd cranked up the demo up at the podium, in front of about 60 people, my Raspberry Pi 3 was asking what OS to install. My Pi's 'image' was gone. I was booting up a fresh Pi 3 with none of the installs, gems, packages, configurations that I'd built essentially by hand. After a few minutes of rebooting and making demo jokes, the presentation went on. Luckily I had 60 minutes and lots of other material, so it all ended fine. 
-
-My 'Tweeting in the Rain' talks have spent considerable time on both the "why" and "how" of integrating Twitter with early-warning systems. Early on (way back in 2012!) the focus was on the 'why' at conferences where social media was not a primary focus. I first presented on the topic of Twitter and flood warning systems in 2013. The hydrologic warning conference did not have a 'social media' track, and our talk was on the challenges and opportunities of integrating Twitter. Most of the material was based on parts 1-3 of this series of Gnip blog posts. Part 3 was posted approximately 10 hours before Boulder County was at the start of an historic flood. See Part 4 to see how the 2013 Colorado flood unfolded on Twitter. 
-
-Now it's April 2017, and I am starting to prepare for another conference (or two?) in June and it is time to start climbing the demo hill again. The great hope is that the above recipes will enable me to quickly catch up to where I was before, and then have the foundation to build on. Thanks to recent Twitter Platform updates, an even more compelling demo can be designed. Since last September, there have been many Twitter platform updates (in fact exciting stuff is being announced on a weekly basis it seems) that brings new communication tools to domains of all stripes. 
-
-For the world of early-warning systems, these new skills include sending direct messages to subscribers, and enabling those subscribers to share their locations (with a [feature announced yesterday](https://blog.twitter.com/2017/businesses-can-now-share-and-request-locations-in-direct-messages)).
 
 ### "things I learned from the Pi crash of 2016"
 
