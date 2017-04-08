@@ -4,14 +4,13 @@
 + [Design goals](#design-goals)
 
 + [Core Functionality](#core-functionality)
-+ [Listening](#listen)
-+ [Notifying](#notify)
+	+ [Listening](#listen)
+	+ [Notifying](#notify)
 
 + [Article-like pieces](#articles)
-+[Challenges of low-volume streams](#low-volume-streams)
-+[Building a simple Twitter Responder](#twitter-responder)
-+[Conferences Demos, mixed blessings]#conference-demos)
-
+	+ [Challenges of low-volume streams](#low-volume-streams)
+	+ [Building a simple Twitter Responder](#twitter-responder)
+	+ [Conferences Demos, mixed blessings]#conference-demos)
 
 + [Code notes and examples](#code-notes)
 
@@ -152,7 +151,7 @@ Results in this Tweet:
   
   
  
-### Conference Demos, mixed blessings. <a id="conference-demos" class="tall">&nbsp;</a>
+### Conference demos, mixed blessings. <a id="conference-demos" class="tall">&nbsp;</a>
 
 The last round of pi adventures was in preparation for a hydrology conference in Albany NY in September 2016. The conference attendees had a high chance of being accustom to tinkering with instrumentation, primarily in the efforts of flood warnings. There would be a common, shared experience of having played with remote dataloggers, collecting meteorlogical data, and sending notifications. 
 
@@ -177,62 +176,19 @@ I have fifty-eight days until the next conference. I better get cracking.
 
 
 
-
-
-
-
-### Searching Tweets
-TBD
-
-
 ## Play notes ---------------------
 
 [] Next?
-[] Storing data? Mongo? Flat-files?
+[] Blend in Search APIs?   [hourly check for 'turn on streaming' command']
 [] DM API 
-
-
-## Project design details
-
-[] Set-up listening for Austin area gauges.
-[] When they Tweet, have @iot_tweeter tweet.
-[] Then send me an email... 
-[] That's it.
-
-
-[] Listening details:
-[] All rules have from: clause
-[] All rules have geo-clause
-[] All rules have domain specific hashtags, keywords, and urls.
-
-from:USGSTexas_Flood 
-profile_region:TX profile_locality:Austin
-point_radius:[-97.7435 30.2678 25mi] 
-
-Domain attributues:
-  keywords: "Flood,Rain,Storm,Damage,Help"
-  hastags: "#txwx,#usgs" 
-
-
-
-
-
-
-[] Stub out Rules API client that deletes and re-sends stream with geo-rule. 
-
+[] Storing data? Mongo? Flat-files?
 
 
 ## Pi 3 and code *environments*
 
-Ruby
-
-Rebuilding the Ruby environment, twice now, seems like a total PITA. 
-
-
-Python
-
-
-Node
++ Ruby - Rebuilding the Ruby environment, twice now, seems like a total PITA. 
++ Python
++ Node
 
 
 
@@ -382,6 +338,32 @@ So, I would be re-doing these efforts a second time, but this time a bit differe
 + Make back-ups of Pi SD card. 
 + Verify that packages, gems and other environmental pieces are readily available and ready to roll. Start making installs, and make sure things like gemset files are up-to-date and actually helpful.
 + Make 'laptop-dev' --> 'pi-test' iteration easier, faster.
+
+
+
+
+## Project design details
+
+[] Set-up listening for Austin area gauges.
+[] When they Tweet, have @iot_tweeter tweet.
+[] Then send me an email... 
+[] That's it.
+
+
+[] Listening details:
+[] All rules have from: clause
+[] All rules have geo-clause
+[] All rules have domain specific hashtags, keywords, and urls.
+
+from:USGSTexas_Flood 
+profile_region:TX profile_locality:Austin
+point_radius:[-97.7435 30.2678 25mi] 
+
+Domain attributues:
+  keywords: "Flood,Rain,Storm,Damage,Help"
+  hastags: "#txwx,#usgs" 
+
+[] Stub out Rules API client that deletes and re-sends stream with geo-rule. 
 
 
 ## Random notes:
