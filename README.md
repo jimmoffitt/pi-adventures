@@ -54,23 +54,49 @@ For these experiments, Gnip was the go-to source for data for a couple of reason
 
 Gnip focuses on the delivery of Twitter data and metadata, and provides a family of products that help users filter the realtime firehose or all-time archive for Tweets of interest. Gnip provides both RESTful APIs able to retrieve data on a near realtime basis and realtime streaming APIs that deliver data with minimum latency. 
 
-[] add summary of streaming success
+#### Twitter events via Websockets
+
+With the release of the Twitter Direct Message API, comes the ability to use websockets to implement real-time data exchange, and in a private fashion. At this point in time I have no plans or need to deploy a websocket on the raspberry pi, although it could most likely handle it. Instead I will be deployig it on a remote service, e.g. heroku, where I can abstract away an entire IT support staff and be able to more easily run a close-to-24/7 server. 
+
+The Direct Message API will play a key role in the @FloodSocial notification system. An *Enroller* component will be based on the DM API and used to have users privately share their location of interest. 
+
+For more information on those development efforts, see [HERE]().
 
 
+##### Streaming vs. RESTful polling
+
+Listening or monitoring for alarm conditions is the heart of any early-warning system. The latency between an *event of interest* occurring and it being detected in an automated way is of primary interest when designing an early-warning system. There are two fundamental modes of detection: 
+
++ polling a (remote) device, asking it for its current (and recent) state
++ event listening, where a (remote) device raises an event that you subscribe to 
+
++ RESTful HTTP GET request --> Twitter Search API
++ real-time HTTP streaming --> Real-time PowerTrack API
+
++ websockets --> Direct Message API
+
+First there is the question of how you want to listen for Tweets of interest? Do you need to do it in real-time, or will checking for events every 5 minutes work? How processor or power intensive can the listening be? What type of device are you deploying on? Is the device plugged into an endless source of power, or wired into a 12V marine battery with solar backup? How much data volume can your environment handle? 
+
+There is the question of where and how you want to filter Tweet data. If you are running on a 'lightweight' device, such as a raspberry pi, you probably want to minimize the number of Tweets to process and store. If you are running on a full-blown server, you may be planning on ingesting millions of Tweets per month or day. 
+
+One interesting design concept to explore is to use Search APIs for receiving "entering event" signals from source systems. For example, the remote device could check into the source system every 15 minutes and if triggered, add a real-time stream for event listening. When the 'all-clear' event is received, the real-time stream is stopped, saving power and processing cycles. 
 
 
 ### Notifications --> /notify<a id="notify" class="tall">&nbsp;</a>
 
+#### Introduction
 
-The Notification manager is a set of apps that know how send notifications to remote places. These notifications can arrive by Tweet, Direct Message, SMS, and email. The focus of this initial experiment will be on using the Twitter platform for managing notifications. So, we'll start with sending Tweets and Direct Messages.
+The Notification manager is a set of apps that know how to send notifications across the internet. These notifications can arrive by Tweet, Direct Message, SMS, and email. The focus of this initial experiment will be on using the Twitter platform for managing notifications. So, we'll start with sending Tweets and Direct Messages.
 
-Posting data enables the Pi device to communicate to the outside world.  Alarms and alerts are not that useful it their notification does not get through to the intended audience. Notifications are the last and most important interface with the public and partners. 
-
-The focus here will be building Tweets, Direct Messages, and email notifications into the Pi 3 example.
+Posting data enables the Pi device to communicate to the outside world.  Alarms and alerts are not that useful if their notification does not get through to the intended audience. Notifications are the last and most important interface with the public and partners. 
 
 The first POC here is building a client app that Tweets to a specified account when a followed account Tweets from a client-selected area.
 
+#### User configurations
+
 Client area is currently statically configured, but be driven by opt-in 'share my location' app.
+
+
 
 #### Notification methods
 + Sending Tweets
