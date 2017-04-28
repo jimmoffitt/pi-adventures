@@ -75,7 +75,7 @@ Listening or monitoring for alarm conditions is the heart of any early-warning s
 
 + websockets --> Direct Message API
 
-First there is the question of how you want to listen for Tweets of interest? Do you need to do it in real-time, or will checking for events every 5 minutes work? How processor or power intensive can the listening be? What type of device are you deploying on? Is the device plugged into an endless source of power, or wired into a 12V marine battery with solar backup? How much data volume can your environment handle? 
+First there is the question of how you want to listen for Tweets of interest? Do you need to do it in real-time, or will checking for events every 5 minutes work? How processor- or power-intensive can the listening be? What type of device are you deploying on? Is the device plugged into an endless source of power, or wired into a 12V marine battery with solar backup? How much data volume can your environment handle? 
 
 There is the question of where and how you want to filter Tweet data. If you are running on a 'lightweight' device, such as a raspberry pi, you probably want to minimize the number of Tweets to process and store. If you are running on a full-blown server, you may be planning on ingesting millions of Tweets per month or day. 
 
