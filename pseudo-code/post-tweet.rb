@@ -1,12 +1,6 @@
-```ruby
-
 require 'twitter'
 
 class PostTweet
-
-   attr_accessor :config,
-				 :consumer_key, :consumer_secret, :access_token, :access_token_secret,
-				 :client
 
    def initialize(config_file)
 	  @config = getConfig(config_file)
@@ -34,4 +28,4 @@ class PostTweet
    end
 end
 
-```
+
