@@ -1,4 +1,5 @@
 ```ruby
+
 require 'twitter'
 
 class PostTweet
@@ -32,4 +33,5 @@ class PostTweet
 	  tweet = client.update message, {media_ids: media_ids.join(',')}
    end
 end
+
 ```
