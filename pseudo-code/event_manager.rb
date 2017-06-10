@@ -4,13 +4,16 @@
 class EventManager
 
 def handle_event(events)
-  events = JSON.parse(events) 
-  if events.key? ('direct_message_events') #DMs are first events to be delivered via Account Activity API.
-    dm_events = events['direct_message_events']
-    dm_events.each do |dm_event|  
-	    
+    events = JSON.parse(events) 
+    
+    #DMs are first events to be delivered via Account Activity API.
+    if events.key? ('direct_message_events') 
+        dm_events = events['direct_message_events']
+        dm_events.each do |dm_event|  
+	    #Process Direct Message and generate response.
+		
+        end
     end
-  end
 end
 
 	  
