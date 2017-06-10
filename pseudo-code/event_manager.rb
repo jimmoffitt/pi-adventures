@@ -3,16 +3,24 @@
 
 class EventManager
 
-	def handle_event(events)
+def handle_event(events)
+  events = JSON.parse(events) 
+  if events.key? ('direct_message_events') #DMs are first events to be delivered via Account Activity API.
+    dm_events = events['direct_message_events']
+    dm_events.each do |dm_event|  
+	    
+    end
+  end
+end
 
-		events = JSON.parse(events)
-
-		if events.key? ('direct_message_events')
-
-			dm_events = events['direct_message_events']
-
-			dm_events.each do |dm_event|
-
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 				if dm_event['type'] == 'message_create'
 
 					#Is this a response? Test for the 'quick_reply_response' key.
